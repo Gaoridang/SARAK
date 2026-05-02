@@ -35,6 +35,35 @@ struct HomeViewModelTests {
         let viewModel = HomeViewModel(weatherService: StubWeatherService())
         await viewModel.loadWeather()
         #expect(viewModel.weather != nil)
-        #expect(viewModel.isLoadingWeather == false)
+        #expect(viewModel.isLoading == false)
+        #expect(viewModel.errorMessage == nil)
     }
+
+    @Test("loadWeather sets errorMessage on service failure")
+    func loadWeatherSetsErrorOnFailure() async {
+        let viewModel = HomeViewModel(weatherService: FailingWeatherService())
+        await viewModel.loadWeather()
+        #expect(viewModel.weather == nil)
+        #expect(viewModel.errorMessage != nil)
+        #expect(viewModel.isLoading == false)
+    }
+
+    @Test("isLoading resets to false after loadWeather completes")
+    func isLoadingResetsAfterLoad() async {
+        let viewModel = HomeViewModel(weatherService: StubWeatherService())
+        await viewModel.loadWeather()
+        #expect(viewModel.isLoading == false)
+    }
+}
+
+// MARK: - Fakes
+
+private struct FailingWeatherService: WeatherServiceProtocol {
+    func currentWeather() async throws -> WeatherSummary {
+        throw WeatherTestError.intentional
+    }
+}
+
+private enum WeatherTestError: Error {
+    case intentional
 }

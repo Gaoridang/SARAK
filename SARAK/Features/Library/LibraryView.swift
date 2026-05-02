@@ -4,7 +4,7 @@ import SwiftUI
 struct LibraryView: View {
     var body: some View {
         NavigationStack {
-            Text("내 서재")
+            Text(StringConstants.Tab.library)
                 .navigationTitle(StringConstants.Tab.library)
         }
     }

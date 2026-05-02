@@ -13,6 +13,7 @@ protocol AuthServiceProtocol: Sendable {
 final class AuthService: AuthServiceProtocol {
 
     var isSignedIn: Bool {
+        // safe: session absence and thrown errors both represent the signed-out state
         get async { (try? await SupabaseService.client.auth.session) != nil }
     }
 

@@ -4,7 +4,7 @@ import SwiftUI
 struct StatsView: View {
     var body: some View {
         NavigationStack {
-            Text("통계")
+            Text(StringConstants.Tab.stats)
                 .navigationTitle(StringConstants.Tab.stats)
         }
     }
