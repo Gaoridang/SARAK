@@ -6,14 +6,18 @@ struct WeatherHeaderView: View {
 
     private var dateString: String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "M월 d일 EEEE"
+        formatter.locale = Locale.current
+        formatter.setLocalizedDateFormatFromTemplate("MdEEEE")
         return formatter.string(from: Date())
     }
 
     private var tempString: String {
-        guard let weather else { return "--°C" }
-        return String(format: "%.0f°C", weather.temperatureC)
+        guard let weather else { return StringConstants.Home.weatherUnavailable }
+        let measurement = Measurement(value: weather.temperatureC, unit: UnitTemperature.celsius)
+        let formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.numberFormatter.maximumFractionDigits = 0
+        return formatter.string(from: measurement)
     }
 
     private var moodString: String {

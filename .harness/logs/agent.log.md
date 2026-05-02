@@ -189,3 +189,59 @@
   - `SARAK/SARAKApp.swift:15` — trailing comma in collection literal (warning)
 - **Outcome:** Completed
 - **Notes:** The `rules:` key is invalid in SwiftLint 0.63.2; top-level keys must be used for per-rule configuration. Fixed before final run.
+
+---
+
+### [2026-05-02] Task: Harness Compliance Audit — full codebase
+- **Plan file:** none (audit only, no code changes)
+- **Audit file:** `.harness/audits/AUDIT_HARNESS_COMPLIANCE_2026-05-02.md`
+- **Branch:** `audit/harness-compliance-2026-05-02`
+- **Harness docs read:** constraints.md, off-limits.md, architecture.md, conventions.md, testing.md, supabase.md, sync.md
+- **Decision:** Inspected all 27 Swift source files. Found 11 violations; none touch off-limits files. Categorised by severity and proposed 3 PR slices.
+- **Constraints applied:** No force unwraps, no `import Supabase` in Views/VMs, `@MainActor` VMs, protocol injection, no hardcoded strings, file length, `try?` comment rule, baseline ViewModel state shape, `StubBook` naming rule.
+- **Files modified:** `.harness/audits/AUDIT_HARNESS_COMPLIANCE_2026-05-02.md` (new), `.harness/logs/agent.log.md` (append)
+- **Tests written:** No
+- **Outcome:** Completed — awaiting user approval to implement PR Slice 1
+- **Notes:** No off-limits files involved. Highest-priority violations are V-01 (StubBook naming), V-02 (missing baseline ViewModel state), V-03 (silent try? swallow). All fixable in one focused PR.
+
+---
+
+### [2026-05-02] Task: Harness Compliance — PR Slice 1 (V-01, V-02, V-03)
+- **Plan file:** `.harness/plans/PLAN_HARNESS_SLICE1_2026-05-02.md`
+- **Working tree:** `.harness/working-tree/TREE_HARNESS_SLICE1_2026-05-02.md`
+- **Branch:** `audit/harness-compliance-2026-05-02`
+- **Harness docs read:** constraints.md, off-limits.md, architecture.md, conventions.md, testing.md
+- **Decision:** Rename `StubBook` → `HomeBookDisplayModel` extracted to its own file; rename `isLoadingWeather` → `isLoading` (baseline name); add `errorMessage`; replace `try?` in `loadWeather()` with `do/catch`.
+- **Constraints applied:** No force unwraps; no `import Supabase`; `@MainActor` VM unchanged; protocol injection unchanged; no off-limits files; files under 200 lines.
+- **Files modified:** `HomeViewModel.swift`, `CurrentlyReadingCard.swift`, `ReadingQueueStrip.swift`, `HomeViewModelTests.swift`; new `HomeBookDisplayModel.swift`
+- **Tests written:** Yes — `HomeViewModelTests.swift` (3 new tests: failure path, isLoading reset, errorMessage nil on success)
+- **Outcome:** Completed — BUILD SUCCEEDED, SwiftLint 0 new violations, 12/12 tests passed
+- **Notes:** `HomeView.swift` does not reference `isLoadingWeather` directly so no change needed there. Two pre-existing SwiftLint warnings in `Item.swift` and `SARAKApp.swift` remain (not in scope for this slice).
+
+---
+
+### [2026-05-02] Task: Harness Compliance — PR Slice 2 (V-04, V-05 doc, V-06, V-07)
+- **Plan file:** `.harness/plans/PLAN_HARNESS_SLICE2_2026-05-02.md`
+- **Working tree:** `.harness/working-tree/TREE_HARNESS_SLICE2_2026-05-02.md`
+- **Branch:** `audit/harness-compliance-2026-05-02`
+- **Harness docs read:** constraints.md, off-limits.md, conventions.md
+- **Decision:** Add `try?` comment in `AuthService`; replace hardcoded strings in `LibraryView`/`StatsView`; replace hardcoded locale/format/fallback in `WeatherHeaderView` with `Locale.current`, `setLocalizedDateFormatFromTemplate`, `MeasurementFormatter`, and a new `StringConstants` key.
+- **Constraints applied:** No force unwraps; no off-limits files; no new hardcoded strings; files under 200 lines.
+- **Files modified:** `AuthService.swift`, `LibraryView.swift`, `StatsView.swift`, `WeatherHeaderView.swift`, `StringConstants.swift`, `Localizable.strings`
+- **Tests written:** No — pure string/constant substitutions, no logic change
+- **Outcome:** Completed — BUILD SUCCEEDED, SwiftLint 0 new violations, 12/12 tests passed
+- **Notes:** V-05 (StubWeatherService default) is doc-only; real WeatherService deferred to PR 2 plan.
+
+---
+
+### [2026-05-02] Task: Harness Compliance — PR Slice 3 (V-08, V-09, V-10 doc, V-11)
+- **Plan file:** `.harness/plans/PLAN_HARNESS_SLICE3_2026-05-02.md`
+- **Working tree:** `.harness/working-tree/TREE_HARNESS_SLICE3_2026-05-02.md`
+- **Branch:** `audit/harness-compliance-2026-05-02`
+- **Harness docs read:** constraints.md, off-limits.md, conventions.md
+- **Decision:** Document `sm/md/lg/xl` as approved exception (already established); delete `Item.swift` and strip `ModelContainer` from `SARAKApp.swift` (no real models yet; will re-add in PR 2); acknowledge V-10 as acceptable; delete empty `SARAKTests.swift` boilerplate.
+- **Constraints applied:** No off-limits files; no force unwraps; `SARAKApp.swift` must remain buildable.
+- **Files modified:** `SARAKApp.swift`, `.harness/conventions.md`; deleted `Item.swift`, `SARAKTests/SARAKTests.swift`
+- **Tests written:** No
+- **Outcome:** Completed — BUILD SUCCEEDED, SwiftLint 0 violations (0 warnings, down from 2 pre-existing), 11/11 tests passed
+- **Notes:** V-10 (`SARAKApp` → `SupabaseService`) acknowledged as acceptable — wrapper design is intentional. Pre-existing `Item.swift` and `SARAKApp.swift` SwiftLint warnings resolved as a side-effect of deleting boilerplate.

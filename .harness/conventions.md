@@ -322,6 +322,9 @@ enum UIConstants {
 
 Avoid abbreviations such as `sm`, `md`, `lg` in production constants unless already established across the project.
 
+**Approved exception — `UIConstants.Spacing` and `UIConstants.CornerRadius`:**
+The names `sm`, `md`, `lg`, `xl` are used across all View files in this project and are considered established abbreviations. Do not rename them.
+
 ---
 
 ## User-facing strings

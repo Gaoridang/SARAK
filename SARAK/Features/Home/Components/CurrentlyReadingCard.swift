@@ -2,7 +2,7 @@
 import SwiftUI
 
 struct CurrentlyReadingCard: View {
-    let book: StubBook?
+    let book: HomeBookDisplayModel?
 
     var body: some View {
         if let book {
@@ -12,7 +12,7 @@ struct CurrentlyReadingCard: View {
         }
     }
 
-    private func bookCard(_ book: StubBook) -> some View {
+    private func bookCard(_ book: HomeBookDisplayModel) -> some View {
         HStack(spacing: UIConstants.Spacing.md) {
             RoundedRectangle(cornerRadius: UIConstants.CornerRadius.sm)
                 .fill(Color.secondary.opacity(0.2))

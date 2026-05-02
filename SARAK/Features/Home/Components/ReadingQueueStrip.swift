@@ -2,7 +2,7 @@
 import SwiftUI
 
 struct ReadingQueueStrip: View {
-    let books: [StubBook]
+    let books: [HomeBookDisplayModel]
 
     var body: some View {
         if !books.isEmpty {
@@ -27,7 +27,7 @@ struct ReadingQueueStrip: View {
         }
     }
 
-    private func bookCard(_ book: StubBook) -> some View {
+    private func bookCard(_ book: HomeBookDisplayModel) -> some View {
         VStack(spacing: UIConstants.Spacing.sm) {
             RoundedRectangle(cornerRadius: UIConstants.CornerRadius.sm)
                 .fill(Color.secondary.opacity(0.2))
