@@ -5,3 +5,28 @@
 "auth.app_title" = "SARAK";
 "auth.kakao_login_button" = "카카오로 로그인";
 "auth.sign_out_button" = "로그아웃";
+
+/* Tabs */
+"tab.home" = "홈";
+"tab.library" = "서재";
+"tab.stats" = "통계";
+"tab.profile" = "프로필";
+
+/* Home */
+"home.greeting" = "안녕하세요 👋";
+"home.weekly_minutes_format" = "이번 주 %d분 읽었어요";
+"home.progress_format" = "%d%% 읽음";
+"home.start_session" = "독서 시작";
+"home.no_current_book" = "아직 읽고 있는 책이 없어요";
+"home.add_book" = "책 추가하기";
+"home.goal_progress_format" = "%d / %d분";
+"home.daily_goal_label" = "오늘의 목표";
+"home.no_goal_set" = "오늘의 목표를 설정하세요";
+"home.set_goal" = "설정하기";
+"home.reading_queue" = "읽을 책";
+
+/* Weather mood */
+"home.mood.sunny" = "맑은 날, 카페에서 읽어보세요 ☀️";
+"home.mood.cloudy" = "흐린 날씨, 실내에서 책 한 권 어때요 ☁️";
+"home.mood.rainy" = "비 오는 날엔 책이죠 🌧️";
+"home.mood.snowy" = "눈 오는 날엔 따뜻하게 책 한 권 📖";
