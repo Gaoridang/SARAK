@@ -31,6 +31,9 @@ View → ViewModel → [Protocol] → LocalRepository | RemoteRepository
 - ONLY class that touches both local + remote simultaneously.
 - Do NOT modify without explicit user approval. Flag and ask.
 
+## Xcode 16 — synchronized folder groups
+This project uses Xcode 16 synchronized folder groups (`objectVersion = 77`). Files added to any folder under `SARAK/` are **auto-discovered and auto-bundled** — no manual `project.pbxproj` edits needed when adding Swift files. Consequence: never place non-source files (README.md, .txt, etc.) inside `SARAK/` subfolders — Xcode will bundle them as app resources and break the build.
+
 ## Feature → ViewModel map
 | Feature              | ViewModel               |
 |----------------------|-------------------------|

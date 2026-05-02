@@ -28,7 +28,8 @@
 - No hardcoded strings — use constants
 - Swift 6 strict concurrency — `@MainActor` on all ViewModels
 - 200-line file limit — split before adding
-- Tests required for every new feature
+- Tests required for every new ViewModel method or business logic — not just "features"
+- Agent log entry required before every commit — no exceptions
 - Never touch off-limits files without explicit user approval
 
 ## Stuck protocol

@@ -5,8 +5,8 @@ import Foundation
 
 enum APIConstants {
     enum Supabase {
-        static let url = ""
-        static let anonKey = ""
+        static let url = "https://lloiugyxirlqifjlgpso.supabase.co"
+        static let anonKey = "sb_publishable_vcVngNY4O2r9PXE_8-zsfg_TFiKFRaw"
         static let booksTable = "books"
         static let sessionsTable = "reading_sessions"
         static let goalsTable = "goals"

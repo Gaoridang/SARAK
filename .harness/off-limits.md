@@ -5,9 +5,10 @@
 ```
 Secrets.swift                                   # API keys, never commit
 *.xcconfig                                      # Build configurations
-ReadingTracker.xcodeproj/project.pbxproj        # Xcode project file
+SARAK.xcodeproj/project.pbxproj                 # Xcode project file — never hand-edit;
+                                                # Xcode auto-edits it for SPM/file ops are fine
 **/Migrations/                                  # SwiftData migration files
-Sources/Services/SyncCoordinator.swift          # Core sync logic
+SARAK/Services/SyncCoordinator.swift            # Core sync logic
 ```
 
 ## Protocol if you need to touch one

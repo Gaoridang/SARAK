@@ -24,6 +24,15 @@
 
 <!-- Append new entries below this line. Never edit above. -->
 
+### [2026-05-02] Task: Tighten hard rules in CLAUDE.md
+- **Branch:** `feat/supabase-setup`
+- **Harness docs read:** none — CLAUDE.md edit only
+- **Decision:** Replaced "Tests required for every new feature" with "Tests required for every new ViewModel method or business logic" to close the loophole that allowed skipping tests on service/plumbing files. Added "Agent log entry required before every commit" as a hard rule — previously it only appeared in the PR checklist and was missed on the build-fix commit.
+- **Files modified:** `CLAUDE.md`
+- **Tests written:** No — rule change only
+- **Outcome:** Completed
+- **Notes:** Both changes prompted by the build-fix commit that shipped without a log entry until the user asked.
+
 ### [2026-05-02] Task: Xcode project scaffold
 - **Plan file:** `.harness/plans/PLAN_SCAFFOLD_2026-05-02.md`
 - **Working tree:** `.harness/working-tree/TREE_SCAFFOLD_2026-05-02.md`
@@ -54,6 +63,37 @@
 - **SwiftLint result:** 0 errors, 2 warnings (both pre-existing in Item.swift and SARAKApp.swift — not introduced by this task)
 - **Outcome:** Completed
 - **Notes:** SyncCoordinator.swift is listed as off-limits in `.harness/off-limits.md` but the task explicitly requested its creation as a stub. Treated task instruction as explicit approval. The `SARAK/Models/` directory was created empty (no SwiftData models yet) — no placeholder needed as no Git tracking required until first model is added.
+
+### [2026-05-02] Task: Supabase client integration
+- **Plan file:** `.harness/plans/PLAN_SUPABASE_SETUP_2026-05-02.md`
+- **Branch:** `feat/supabase-setup`
+- **Harness docs read:** architecture.md, conventions.md, constraints.md, supabase.md, off-limits.md
+- **Decision:** Created `SupabaseService.swift` as the single shared `SupabaseClient` instance. Used `guard let` + `preconditionFailure` instead of force-unwrap to satisfy `force_unwrapping: error` SwiftLint rule, which conflicts with the `!` shown in `supabase.md`'s canonical example.
+- **Constraints applied:** No force unwraps, `import Supabase` restricted to allowed files only, no hardcoded strings
+- **Files created:** `SARAK/Services/SupabaseService.swift`
+- **Files modified:** none
+- **Off-limits files touched:** none
+- **Tests written:** No — client initialisation only, no testable logic
+- **SwiftLint result:** 0 new errors, 0 new warnings (2 pre-existing warnings in SARAKApp.swift and Item.swift unchanged)
+- **Outcome:** Completed
+- **Notes:** SourceKit reported "No such module 'Supabase'" outside Xcode build context — false positive. Package is already linked in project.pbxproj (`XCRemoteSwiftPackageReference "supabase-swift"`). `supabase.md` canonical example uses a force unwrap; flagged the conflict in the plan and resolved with `preconditionFailure` — harness doc should be updated to reflect the safe pattern.
+
+### [2026-05-02] Task: Build fix + harness doc corrections
+- **Branch:** `feat/supabase-setup`
+- **Harness docs read:** architecture.md, conventions.md, off-limits.md, supabase.md, plans/PLAN_TEMPLATE.md
+- **Decision:** Deleted 11 README.md placeholder files that were auto-bundled by Xcode 16 synchronized folder groups, causing duplicate-resource build failures. Updated 5 harness docs to fix stale paths and missing rules.
+- **Constraints applied:** Off-limits files untouched; no source files modified
+- **Files deleted:** all `README.md` placeholders in Features/ and Repositories/ subfolders (11 total)
+- **Files modified:**
+  - `.harness/architecture.md` — added Xcode 16 synchronized folder groups note
+  - `.harness/conventions.md` — added rule against placeholder files in SARAK/ subfolders
+  - `.harness/supabase.md` — fixed client init example (`!` → `guard/preconditionFailure`)
+  - `.harness/off-limits.md` — fixed stale project name and paths (ReadingTracker/Sources → SARAK)
+  - `.harness/plans/PLAN_TEMPLATE.md` — fixed all Sources/ paths to SARAK/
+- **Tests written:** No
+- **Build result:** SUCCEEDED on iPhone 17 simulator after README.md deletion
+- **Outcome:** Completed
+- **Notes:** Root cause of build failure — Xcode 16 `objectVersion = 77` uses synchronized folder groups that auto-discover and bundle every file inside SARAK/, including markdown files. README.md placeholders are incompatible with this project setup. Advisor recommended this approach.
 
 ### [2026-05-02] Task: SwiftLint setup
 - **Plan file:** `.harness/plans/PLAN_SWIFTLINT_SETUP_2026-05-02.md`
