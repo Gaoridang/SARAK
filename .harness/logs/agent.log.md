@@ -324,3 +324,18 @@
 - **Build/test result:** Passed with `xcodebuild test -project SARAK.xcodeproj -scheme SARAK -destination 'platform=iOS Simulator,name=iPhone 17'`.
 - **Screenshot:** `.harness/screenshots/home/first-login-empty-20260503-001338.png`
 - **Outcome:** Completed.
+
+---
+
+### [2026-05-03] Task: Harness checklist and runner rules
+- **Plan file:** `.harness/plans/PLAN_HARNESS_CHECKLIST_RUNNER_RULES_2026-05-03.md`
+- **Working tree:** `.harness/working-tree/TREE_HARNESS_CHECKLIST_RUNNER_RULES_2026-05-03.md`
+- **Branch:** `harness-checklist-runner-rules`
+- **Harness docs read:** constraints.md, off-limits.md, testing.md, plans/PLAN_TEMPLATE.md, working-tree/TREE_TEMPLATE.md, CLAUDE.md
+- **Decision:** Require every plan to include a task checklist before implementation and keep it updated so another agent can track or resume work. Clarify that local build, SwiftLint, and test commands that are already part of the task or harness definition of done do not require separate user approval.
+- **Constraints applied:** Harness-only documentation change; no source, project, Supabase, sync, or data-layer changes.
+- **Files modified:** `CLAUDE.md`, `.harness/plans/PLAN_TEMPLATE.md`, `.harness/constraints.md`, `.harness/testing.md`, `.harness/logs/agent.log.md`
+- **Files created:** `.harness/plans/PLAN_HARNESS_CHECKLIST_RUNNER_RULES_2026-05-03.md`, `.harness/working-tree/TREE_HARNESS_CHECKLIST_RUNNER_RULES_2026-05-03.md`
+- **Tests written:** No — documentation-only harness update.
+- **Build/lint/test result:** Not run — documentation-only change.
+- **Outcome:** Completed.

@@ -30,8 +30,10 @@ Swift 6 · SwiftUI · SwiftData · Supabase v2+ · Swift Testing · SPM · Xcode
 2. Read required harness docs.
 3. Create or switch to a dedicated git branch for this task.
 4. Write a plan to `.harness/plans/PLAN_<FEATURE>_<YYYY-MM-DD>.md`.
-5. Snapshot relevant tree/state to `.harness/working-tree/TREE_<FEATURE>_<YYYY-MM-DD>.md`.
-6. Append a decision entry to `.harness/logs/agent.log.md`.
+5. Include a task checklist in the plan before implementation so another agent can track and continue the work.
+6. Keep the checklist updated as task steps are completed.
+7. Snapshot relevant tree/state to `.harness/working-tree/TREE_<FEATURE>_<YYYY-MM-DD>.md`.
+8. Append a decision entry to `.harness/logs/agent.log.md`.
 
 ## Hard rules
 
@@ -89,10 +91,12 @@ When asked to fix existing code against the harness:
 ## Before commit
 
 - Re-read the plan.
+- Confirm the plan checklist reflects current task status.
 - Check changed files against off-limits.
 - Run build.
 - Run SwiftLint.
 - Run tests.
+- Do not wait for separate user approval before running local build, SwiftLint, or test commands that are already part of the task.
 - Confirm no manual `project.pbxproj` edits.
 - Confirm no placeholder files inside `SARAK/`.
 - Confirm agent log was updated.

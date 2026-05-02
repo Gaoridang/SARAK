@@ -7,6 +7,8 @@ Tests protect architecture, behavior, and future refactors.
 
 New logic should ship with tests in the same PR.
 
+Agents should run relevant local tests without waiting for separate user approval when tests are part of the task or definition of done.
+
 ---
 
 ## Frameworks
@@ -420,6 +422,7 @@ Test fixture strings may be hardcoded.
 
 Before finishing a PR, verify:
 
+- [ ] Relevant local tests were run without waiting for separate user approval
 - [ ] New ViewModel public methods are tested
 - [ ] Repository logic is tested
 - [ ] Service logic is tested
