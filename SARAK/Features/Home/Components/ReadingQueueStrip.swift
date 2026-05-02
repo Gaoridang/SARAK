@@ -13,7 +13,8 @@ struct ReadingQueueStrip: View {
     private var content: some View {
         VStack(alignment: .leading, spacing: UIConstants.Spacing.sm) {
             Text(StringConstants.Home.readingQueue)
-                .font(.headline)
+                .font(UIConstants.Typography.titleSM)
+                .foregroundStyle(UIConstants.Colors.ink)
                 .padding(.horizontal, UIConstants.Spacing.md)
 
             ScrollView(.horizontal, showsIndicators: false) {
@@ -30,10 +31,11 @@ struct ReadingQueueStrip: View {
     private func bookCard(_ book: HomeBookDisplayModel) -> some View {
         VStack(spacing: UIConstants.Spacing.sm) {
             RoundedRectangle(cornerRadius: UIConstants.CornerRadius.sm)
-                .fill(Color.secondary.opacity(0.2))
+                .fill(UIConstants.Colors.surfaceStrong)
                 .frame(width: 80, height: 112)
             Text(book.title)
-                .font(.caption)
+                .font(UIConstants.Typography.caption)
+                .foregroundStyle(UIConstants.Colors.bodyStrong)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
                 .frame(width: 80)

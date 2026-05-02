@@ -21,16 +21,16 @@ struct DailyGoalRing: View {
     private var ringView: some View {
         ZStack {
             Circle()
-                .stroke(Color.secondary.opacity(0.2), lineWidth: 12)
+                .stroke(UIConstants.Colors.hairlineSoft, lineWidth: 12)
             Circle()
                 .trim(from: 0, to: progress)
                 .stroke(
-                    Color.accentColor,
+                    UIConstants.Colors.primary,
                     style: StrokeStyle(lineWidth: 12, lineCap: .round)
                 )
                 .rotationEffect(.degrees(-90))
                 .animation(.easeInOut, value: progress)
-            VStack(spacing: 2) {
+            VStack(spacing: UIConstants.Spacing.xxs) {
                 Text(
                     String(
                         format: StringConstants.Home.goalProgressFormat,
@@ -38,11 +38,11 @@ struct DailyGoalRing: View {
                         todayGoalMinutes
                     )
                 )
-                .font(.system(.callout, design: .rounded))
-                .fontWeight(.semibold)
+                .font(UIConstants.Typography.bodyStrong)
+                .foregroundStyle(UIConstants.Colors.ink)
                 Text(StringConstants.Home.dailyGoalLabel)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .font(UIConstants.Typography.captionUppercase)
+                    .foregroundStyle(UIConstants.Colors.muted)
             }
         }
         .frame(width: 120, height: 120)
@@ -51,11 +51,18 @@ struct DailyGoalRing: View {
     private var emptyState: some View {
         VStack(spacing: UIConstants.Spacing.sm) {
             Text(StringConstants.Home.noGoalSet)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .font(UIConstants.Typography.bodySM)
+                .foregroundStyle(UIConstants.Colors.muted)
                 .multilineTextAlignment(.center)
             Button(StringConstants.Home.setGoal) {}
-                .font(.subheadline)
+                .font(UIConstants.Typography.button)
+                .foregroundStyle(UIConstants.Colors.ink)
+                .padding(.vertical, UIConstants.Spacing.sm)
+                .padding(.horizontal, UIConstants.Spacing.md)
+                .frame(height: 44)
+                .background(.clear)
+                .clipShape(Capsule())
+                .overlay(Capsule().stroke(UIConstants.Colors.hairlineStrong, lineWidth: 1))
         }
         .frame(width: 120, height: 120)
     }
