@@ -245,3 +245,19 @@
 - **Tests written:** No
 - **Outcome:** Completed — BUILD SUCCEEDED, SwiftLint 0 violations (0 warnings, down from 2 pre-existing), 11/11 tests passed
 - **Notes:** V-10 (`SARAKApp` → `SupabaseService`) acknowledged as acceptable — wrapper design is intentional. Pre-existing `Item.swift` and `SARAKApp.swift` SwiftLint warnings resolved as a side-effect of deleting boilerplate.
+
+---
+
+### [2026-05-02] Task: Design harness — ElevenLabs-inspired editorial system
+- **Plan file:** `.claude/plans/let-s-create-design-harnesses-frolicking-pie.md`
+- **Branch:** `main`
+- **Harness docs read:** constraints.md, off-limits.md, conventions.md
+- **Decision:** Adopted ElevenLabs editorial aesthetic adapted for iOS/SwiftUI: off-white canvas, near-black ink, New York serif at `.light` for display, SF Pro for body. Font choice: `Font.system(design: .serif)` (New York) — no bundled fonts, no licensing review needed. Scope: doc + tokens only, no view refactoring. Dark mode deferred. Kakao brand colors carved out as an explicit exception in `design.md`.
+- **Constraints applied:** No hardcoded hex/literals in tokens (all named); file under 200 lines; no off-limits files touched; conventions.md `sm/md/lg/xl` approved exception respected (kept existing names, added `xs`/`xl` alongside).
+- **Files created:** `.harness/design.md`
+- **Files modified:**
+  - `SARAK/Constants/UIConstants.swift` — added `Typography` enum (14 tokens); extended `Colors` (21 new tokens); extended `Spacing` (`xxs`, `xxl`, `section`); extended `CornerRadius` (`xs`, `xl`)
+  - `CLAUDE.md` — added "Styling views, components, or visual treatments → design.md" row to "Load as needed" table
+- **Tests written:** No — constants and harness doc only, no logic
+- **Outcome:** Completed
+- **Notes:** `UIConstants.Typography.bodyStrong` and `UIConstants.Colors.bodyStrong` share the same suffix but live in different nested enums — no collision. SwiftLint `identifier_name` min 2 chars is satisfied by all new names (shortest: `xs`, `sm`, `md`, `lg`, `xl` — all 2+ chars; approved by conventions.md exception).
