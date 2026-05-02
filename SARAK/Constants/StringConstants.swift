@@ -29,6 +29,7 @@ enum StringConstants {
         static let noGoalSet = String(localized: "home.no_goal_set")
         static let setGoal = String(localized: "home.set_goal")
         static let readingQueue = String(localized: "home.reading_queue")
+        static let emptyQueue = String(localized: "home.empty_queue")
         static let weatherUnavailable = String(localized: "home.weather.unavailable")
     }
 

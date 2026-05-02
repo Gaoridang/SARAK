@@ -6,28 +6,29 @@ import Testing
 @MainActor
 struct HomeViewModelTests {
 
-    @Test("stub weeklyMinutes returns non-negative value")
-    func weeklyMinutesIsNonNegative() {
+    @Test("first-login weeklyMinutes is zero")
+    func weeklyMinutesStartsAtZero() {
         let viewModel = HomeViewModel()
-        #expect(viewModel.weeklyMinutes >= 0)
+        #expect(viewModel.weeklyMinutes == 0)
     }
 
-    @Test("stub currentBook is non-nil")
-    func currentBookIsNonNil() {
+    @Test("first-login currentBook is nil")
+    func currentBookStartsEmpty() {
         let viewModel = HomeViewModel()
-        #expect(viewModel.currentBook != nil)
+        #expect(viewModel.currentBook == nil)
     }
 
-    @Test("stub todayGoalMinutes is greater than zero")
-    func todayGoalMinutesIsPositive() {
+    @Test("first-login goal and read minutes are zero")
+    func goalAndReadMinutesStartAtZero() {
         let viewModel = HomeViewModel()
-        #expect(viewModel.todayGoalMinutes > 0)
+        #expect(viewModel.todayGoalMinutes == 0)
+        #expect(viewModel.todayReadMinutes == 0)
     }
 
-    @Test("stub queue is non-empty")
-    func queueIsNonEmpty() {
+    @Test("first-login queue is empty")
+    func queueStartsEmpty() {
         let viewModel = HomeViewModel()
-        #expect(!viewModel.queue.isEmpty)
+        #expect(viewModel.queue.isEmpty)
     }
 
     @Test("loadWeather sets weather to non-nil with stub service")

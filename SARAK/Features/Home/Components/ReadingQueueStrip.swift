@@ -5,25 +5,27 @@ struct ReadingQueueStrip: View {
     let books: [HomeBookDisplayModel]
 
     var body: some View {
-        if !books.isEmpty {
-            content
-        }
-    }
-
-    private var content: some View {
         VStack(alignment: .leading, spacing: UIConstants.Spacing.sm) {
             Text(StringConstants.Home.readingQueue)
                 .font(UIConstants.Typography.titleSM)
                 .foregroundStyle(UIConstants.Colors.ink)
                 .padding(.horizontal, UIConstants.Spacing.md)
 
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: UIConstants.Spacing.md) {
-                    ForEach(books, id: \.title) { book in
-                        bookCard(book)
+            if books.isEmpty {
+                EmptyStateCard(
+                    message: StringConstants.Home.emptyQueue,
+                    actionTitle: StringConstants.Home.addBook
+                )
+                    .padding(.horizontal, UIConstants.Spacing.md)
+            } else {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: UIConstants.Spacing.md) {
+                        ForEach(books, id: \.title) { book in
+                            bookCard(book)
+                        }
                     }
+                    .padding(.horizontal, UIConstants.Spacing.md)
                 }
-                .padding(.horizontal, UIConstants.Spacing.md)
             }
         }
     }

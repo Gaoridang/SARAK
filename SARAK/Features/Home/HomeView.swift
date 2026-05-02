@@ -42,21 +42,30 @@ struct HomeView: View {
     }
 
     private var dailyGoalSection: some View {
-        HStack {
-            Spacer()
-            DailyGoalRing(
-                todayReadMinutes: viewModel.todayReadMinutes,
-                todayGoalMinutes: viewModel.todayGoalMinutes
-            )
-            Spacer()
+        Group {
+            if viewModel.todayGoalMinutes == 0 {
+                DailyGoalRing(
+                    todayReadMinutes: viewModel.todayReadMinutes,
+                    todayGoalMinutes: viewModel.todayGoalMinutes
+                )
+            } else {
+                HStack {
+                    Spacer()
+                    DailyGoalRing(
+                        todayReadMinutes: viewModel.todayReadMinutes,
+                        todayGoalMinutes: viewModel.todayGoalMinutes
+                    )
+                    Spacer()
+                }
+                .padding(UIConstants.Spacing.lg)
+                .background(UIConstants.Colors.surfaceCard)
+                .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg))
+                .overlay(
+                    RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg)
+                        .stroke(UIConstants.Colors.hairline, lineWidth: 1)
+                )
+            }
         }
-        .padding(UIConstants.Spacing.lg)
-        .background(UIConstants.Colors.surfaceCard)
-        .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg))
-        .overlay(
-            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg)
-                .stroke(UIConstants.Colors.hairline, lineWidth: 1)
-        )
         .padding(.horizontal, UIConstants.Spacing.md)
     }
 }
