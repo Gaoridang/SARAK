@@ -12,6 +12,12 @@ final class AuthViewModel: ObservableObject {
 
     init(authService: any AuthServiceProtocol = AuthService()) {
         self.authService = authService
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["SARAK_SCREENSHOT_AUTHENTICATED"] == "1" {
+            isAuthenticated = true
+            return
+        }
+        #endif
         Task { await refreshSession() }
     }
 

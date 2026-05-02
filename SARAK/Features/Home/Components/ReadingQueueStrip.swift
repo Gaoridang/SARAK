@@ -38,7 +38,15 @@ struct ReadingQueueStrip: View {
                 .foregroundStyle(UIConstants.Colors.bodyStrong)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
-                .frame(width: 80)
+                .frame(width: 88)
         }
+        .frame(width: 112, height: 168)
+        .background(UIConstants.Colors.surfaceCard)
+        .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg))
+        .overlay(
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg)
+                .stroke(UIConstants.Colors.hairline, lineWidth: 1)
+        )
+        .shadow(color: .black.opacity(0.03), radius: 10, x: 0, y: 3)
     }
 }

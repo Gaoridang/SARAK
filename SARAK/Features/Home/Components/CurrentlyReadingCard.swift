@@ -13,10 +13,10 @@ struct CurrentlyReadingCard: View {
     }
 
     private func bookCard(_ book: HomeBookDisplayModel) -> some View {
-        HStack(spacing: UIConstants.Spacing.md) {
+        HStack(alignment: .center, spacing: UIConstants.Spacing.md) {
             RoundedRectangle(cornerRadius: UIConstants.CornerRadius.sm)
                 .fill(UIConstants.Colors.surfaceStrong)
-                .frame(width: 72, height: 100)
+                .frame(width: 88, height: 124)
 
             VStack(alignment: .leading, spacing: UIConstants.Spacing.sm) {
                 Text(book.title)
@@ -29,15 +29,15 @@ struct CurrentlyReadingCard: View {
                 Text(String(format: StringConstants.Home.progressFormat, Int(book.progress * 100)))
                     .font(UIConstants.Typography.caption)
                     .foregroundStyle(UIConstants.Colors.muted)
-                Spacer()
                 Button(StringConstants.Home.startSession) {}
                     .font(UIConstants.Typography.button)
                     .foregroundStyle(UIConstants.Colors.onPrimary)
                     .padding(.vertical, UIConstants.Spacing.sm)
-                    .padding(.horizontal, UIConstants.Spacing.xl)
+                    .padding(.horizontal, UIConstants.Spacing.lg)
                     .frame(height: 44)
                     .background(UIConstants.Colors.primary)
                     .clipShape(Capsule())
+                    .padding(.top, UIConstants.Spacing.sm)
             }
 
             Spacer()
