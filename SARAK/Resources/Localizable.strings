@@ -1,2 +1,7 @@
 /* Localizable.strings — SARAK */
 /* All user-facing strings go here. */
+
+/* Auth */
+"auth.app_title" = "SARAK";
+"auth.kakao_login_button" = "카카오로 로그인";
+"auth.sign_out_button" = "로그아웃";

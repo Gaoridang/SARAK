@@ -15,4 +15,8 @@ enum UIConstants {
         static let md: CGFloat = 12
         static let lg: CGFloat = 16
     }
+    enum Colors {
+        static let kakaoYellow = Color(red: 0.992, green: 0.898, blue: 0.0)
+        static let kakaoLabel = Color(red: 0.137, green: 0.122, blue: 0.118)
+    }
 }

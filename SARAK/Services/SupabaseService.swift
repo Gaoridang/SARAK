@@ -11,4 +11,9 @@ enum SupabaseService {
         }
         return SupabaseClient(supabaseURL: url, supabaseKey: APIConstants.Supabase.anonKey)
     }()
+
+    // Wraps deep link handling so callers outside this file need not import Supabase.
+    static func handle(_ url: URL) {
+        client.handle(url)
+    }
 }
