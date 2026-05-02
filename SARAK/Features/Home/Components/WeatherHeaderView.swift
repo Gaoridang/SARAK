@@ -34,15 +34,16 @@ struct WeatherHeaderView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: UIConstants.Spacing.sm) {
             Text(dateString)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .font(UIConstants.Typography.caption)
+                .foregroundStyle(UIConstants.Colors.muted)
             HStack(spacing: UIConstants.Spacing.sm) {
                 Text(tempString)
-                    .font(.headline)
+                    .font(UIConstants.Typography.bodyStrong)
+                    .foregroundStyle(UIConstants.Colors.bodyStrong)
                 if !moodString.isEmpty {
                     Text(moodString)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .font(UIConstants.Typography.bodySM)
+                        .foregroundStyle(UIConstants.Colors.muted)
                 }
             }
         }

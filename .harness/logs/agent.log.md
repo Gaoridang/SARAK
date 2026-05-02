@@ -218,8 +218,6 @@
 - **Outcome:** Completed — BUILD SUCCEEDED, SwiftLint 0 new violations, 12/12 tests passed
 - **Notes:** `HomeView.swift` does not reference `isLoadingWeather` directly so no change needed there. Two pre-existing SwiftLint warnings in `Item.swift` and `SARAKApp.swift` remain (not in scope for this slice).
 
----
-
 ### [2026-05-02] Task: Harness Compliance — PR Slice 2 (V-04, V-05 doc, V-06, V-07)
 - **Plan file:** `.harness/plans/PLAN_HARNESS_SLICE2_2026-05-02.md`
 - **Working tree:** `.harness/working-tree/TREE_HARNESS_SLICE2_2026-05-02.md`
@@ -261,3 +259,20 @@
 - **Tests written:** No — constants and harness doc only, no logic
 - **Outcome:** Completed
 - **Notes:** `UIConstants.Typography.bodyStrong` and `UIConstants.Colors.bodyStrong` share the same suffix but live in different nested enums — no collision. SwiftLint `identifier_name` min 2 chars is satisfied by all new names (shortest: `xs`, `sm`, `md`, `lg`, `xl` — all 2+ chars; approved by conventions.md exception).
+
+---
+
+### [2026-05-02] Task: Home Redesign + Findings Cleanup
+- **Plan file:** `.harness/plans/PLAN_HOME_REDESIGN_2026-05-02.md`
+- **Follow-up plan file:** `.harness/plans/PLAN_SWIFT_SETTINGS_2026-05-02.md`
+- **Working tree:** `.harness/working-tree/TREE_HOME_REDESIGN_2026-05-02.md`
+- **Harness docs read:** constraints.md, off-limits.md, architecture.md, conventions.md, design.md, testing.md
+- **Decision:** Applied the existing Home token refresh plan only. Documented the Swift settings mismatch separately because fixing it likely requires editing the off-limits Xcode project file.
+- **Constraints applied:** No behavior changes, no Supabase/ViewModel/data-layer changes, no protected Xcode project edit, no hardcoded user-facing strings, files under 200 lines.
+- **Files modified:** Home view and five Home components, Home redesign working-tree snapshot, agent log.
+- **Files created:** `.harness/plans/PLAN_SWIFT_SETTINGS_2026-05-02.md`
+- **Tests written:** No — visual token refresh only.
+- **SwiftLint result:** Passed.
+- **Build/test result:** Passed with `xcodebuild test -project SARAK.xcodeproj -scheme SARAK -destination 'platform=iOS Simulator,name=iPhone 17'`.
+- **Outcome:** Completed.
+- **Notes:** Swift settings follow-up requires explicit user approval before touching `SARAK.xcodeproj/project.pbxproj`.

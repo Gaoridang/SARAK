@@ -6,13 +6,13 @@ struct ProfileStripView: View {
 
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: UIConstants.Spacing.xxs) {
                 Text(StringConstants.Home.greeting)
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(UIConstants.Typography.displaySM)
+                    .foregroundStyle(UIConstants.Colors.ink)
                 Text(String(format: StringConstants.Home.weeklyMinutesFormat, weeklyMinutes))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .font(UIConstants.Typography.caption)
+                    .foregroundStyle(UIConstants.Colors.muted)
             }
             Spacer()
         }
