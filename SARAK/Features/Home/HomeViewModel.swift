@@ -18,21 +18,17 @@ final class HomeViewModel: ObservableObject {
 
     // MARK: - Stub data (replaced in PR 2)
 
-    var weeklyMinutes: Int { 120 }
+    var weeklyMinutes: Int { 0 }
 
     var currentBook: HomeBookDisplayModel? {
-        HomeBookDisplayModel(title: "Dune", author: "Frank Herbert", progress: 0.74)
+        nil
     }
 
-    var todayGoalMinutes: Int { 30 }
-    var todayReadMinutes: Int { 20 }
+    var todayGoalMinutes: Int { 0 }
+    var todayReadMinutes: Int { 0 }
 
     var queue: [HomeBookDisplayModel] {
-        [
-            HomeBookDisplayModel(title: "1984", author: "George Orwell", progress: 0.0),
-            HomeBookDisplayModel(title: "The Alchemist", author: "Paulo Coelho", progress: 0.12),
-            HomeBookDisplayModel(title: "Sapiens", author: "Yuval Noah Harari", progress: 0.0)
-        ]
+        []
     }
 
     // MARK: - Weather

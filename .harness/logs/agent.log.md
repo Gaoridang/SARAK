@@ -307,3 +307,20 @@
 - **Files created:** `.harness/plans/PLAN_HARNESS_TASK_BRANCHES_2026-05-02.md`
 - **Tests written:** No — documentation-only harness update.
 - **Outcome:** Completed.
+
+---
+
+### [2026-05-03] Task: Home first-login empty states
+- **Plan file:** `.harness/plans/PLAN_HOME_FIRST_LOGIN_EMPTY_STATES_2026-05-03.md`
+- **Working tree:** `.harness/working-tree/TREE_HOME_FIRST_LOGIN_EMPTY_STATES_2026-05-03.md`
+- **Branch:** `home-first-login-empty-states`
+- **Harness docs read:** constraints.md, off-limits.md, architecture.md, conventions.md, testing.md, design.md
+- **Decision:** Defaulted Home stub data to first-login empty values and introduced a reusable `EmptyStateCard` for current book, daily goal, and queue empty states.
+- **Constraints applied:** Home-only scope; no Supabase, SwiftData, sync, Add Book, or Goal flow changes; CTAs remain visual-only; files under 200 lines.
+- **Files modified:** `HomeViewModel.swift`, `HomeView.swift`, Home components, `StringConstants.swift`, `Localizable.strings`, `HomeViewModelTests.swift`
+- **Files created:** `EmptyStateCard.swift`, plan/tree records
+- **Tests written:** Yes — updated `HomeViewModelTests.swift` first-login defaults.
+- **SwiftLint result:** Passed.
+- **Build/test result:** Passed with `xcodebuild test -project SARAK.xcodeproj -scheme SARAK -destination 'platform=iOS Simulator,name=iPhone 17'`.
+- **Screenshot:** `.harness/screenshots/home/first-login-empty-20260503-001338.png`
+- **Outcome:** Completed.

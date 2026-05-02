@@ -54,29 +54,10 @@ struct CurrentlyReadingCard: View {
     }
 
     private var emptyState: some View {
-        VStack(spacing: UIConstants.Spacing.sm) {
-            Text(StringConstants.Home.noCurrentBook)
-                .font(UIConstants.Typography.bodySM)
-                .foregroundStyle(UIConstants.Colors.muted)
-            Button(StringConstants.Home.addBook) {}
-                .font(UIConstants.Typography.button)
-                .foregroundStyle(UIConstants.Colors.ink)
-                .padding(.vertical, UIConstants.Spacing.sm)
-                .padding(.horizontal, UIConstants.Spacing.xl)
-                .frame(height: 44)
-                .background(.clear)
-                .clipShape(Capsule())
-                .overlay(Capsule().stroke(UIConstants.Colors.hairlineStrong, lineWidth: 1))
-        }
-        .frame(maxWidth: .infinity)
-        .padding(UIConstants.Spacing.lg)
-        .background(UIConstants.Colors.surfaceCard)
-        .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg))
-        .overlay(
-            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg)
-                .stroke(UIConstants.Colors.hairline, lineWidth: 1)
+        EmptyStateCard(
+            message: StringConstants.Home.noCurrentBook,
+            actionTitle: StringConstants.Home.addBook
         )
-        .shadow(color: .black.opacity(0.04), radius: 16, x: 0, y: 4)
-        .padding(.horizontal, UIConstants.Spacing.md)
+            .padding(.horizontal, UIConstants.Spacing.md)
     }
 }

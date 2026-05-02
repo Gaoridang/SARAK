@@ -49,21 +49,9 @@ struct DailyGoalRing: View {
     }
 
     private var emptyState: some View {
-        VStack(spacing: UIConstants.Spacing.sm) {
-            Text(StringConstants.Home.noGoalSet)
-                .font(UIConstants.Typography.bodySM)
-                .foregroundStyle(UIConstants.Colors.muted)
-                .multilineTextAlignment(.center)
-            Button(StringConstants.Home.setGoal) {}
-                .font(UIConstants.Typography.button)
-                .foregroundStyle(UIConstants.Colors.ink)
-                .padding(.vertical, UIConstants.Spacing.sm)
-                .padding(.horizontal, UIConstants.Spacing.md)
-                .frame(height: 44)
-                .background(.clear)
-                .clipShape(Capsule())
-                .overlay(Capsule().stroke(UIConstants.Colors.hairlineStrong, lineWidth: 1))
-        }
-        .frame(width: 120, height: 120)
+        EmptyStateCard(
+            message: StringConstants.Home.noGoalSet,
+            actionTitle: StringConstants.Home.setGoal
+        )
     }
 }
