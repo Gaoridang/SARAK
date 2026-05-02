@@ -1,0 +1,31 @@
+included:
+  - SARAK
+
+excluded:
+  - SARAK.xcodeproj
+  - SARAKTests
+  - SARAKUITests
+  - .build
+
+opt_in_rules:
+  - force_unwrapping
+
+force_unwrapping: error
+
+file_length:
+  warning: 180
+  error: 200
+
+line_length:
+  warning: 120
+  error: 130
+
+identifier_name:
+  min_length: 2
+
+custom_rules:
+  no_print:
+    name: "No print() in production"
+    regex: '^\s*print\('
+    message: "Use Logger instead of print(). Wrap in #if DEBUG if needed."
+    severity: warning
