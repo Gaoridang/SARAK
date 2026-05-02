@@ -11,6 +11,16 @@ Do not bypass these rules to finish faster.
 
 ---
 
+## Git workflow
+
+Each task must have its own git branch.
+
+- Create or switch to a branch dedicated to the current task before code or harness edits.
+- Record the branch in the plan and agent log.
+- Do not mix unrelated tasks on the same branch.
+
+---
+
 ## Active SwiftLint rules
 
 These are errors, not warnings.

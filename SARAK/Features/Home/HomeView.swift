@@ -6,21 +6,14 @@ struct HomeView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: UIConstants.Spacing.xxl) {
+            VStack(alignment: .leading, spacing: UIConstants.Spacing.lg) {
                 topBand
                 CurrentlyReadingCard(book: viewModel.currentBook)
-                HStack {
-                    Spacer()
-                    DailyGoalRing(
-                        todayReadMinutes: viewModel.todayReadMinutes,
-                        todayGoalMinutes: viewModel.todayGoalMinutes
-                    )
-                    Spacer()
-                }
-                .padding(.horizontal, UIConstants.Spacing.md)
+                dailyGoalSection
                 ReadingQueueStrip(books: viewModel.queue)
             }
-            .padding(.vertical, UIConstants.Spacing.md)
+            .padding(.top, UIConstants.Spacing.lg)
+            .padding(.bottom, UIConstants.Spacing.section)
         }
         .background(UIConstants.Colors.canvas)
         .task {
@@ -29,7 +22,12 @@ struct HomeView: View {
     }
 
     private var topBand: some View {
-        ZStack(alignment: .topTrailing) {
+        VStack(alignment: .leading, spacing: UIConstants.Spacing.md) {
+            ProfileStripView(weeklyMinutes: viewModel.weeklyMinutes)
+            WeatherHeaderView(weather: viewModel.weather)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(alignment: .topTrailing) {
             RadialGradient(
                 colors: [UIConstants.Colors.gradientMint.opacity(0.45), .clear],
                 center: .center,
@@ -40,11 +38,25 @@ struct HomeView: View {
             .blur(radius: 60)
             .offset(x: UIConstants.Spacing.xxl, y: -UIConstants.Spacing.section)
             .allowsHitTesting(false)
-
-            VStack(alignment: .leading, spacing: UIConstants.Spacing.md) {
-                ProfileStripView(weeklyMinutes: viewModel.weeklyMinutes)
-                WeatherHeaderView(weather: viewModel.weather)
-            }
         }
+    }
+
+    private var dailyGoalSection: some View {
+        HStack {
+            Spacer()
+            DailyGoalRing(
+                todayReadMinutes: viewModel.todayReadMinutes,
+                todayGoalMinutes: viewModel.todayGoalMinutes
+            )
+            Spacer()
+        }
+        .padding(UIConstants.Spacing.lg)
+        .background(UIConstants.Colors.surfaceCard)
+        .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg))
+        .overlay(
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg)
+                .stroke(UIConstants.Colors.hairline, lineWidth: 1)
+        )
+        .padding(.horizontal, UIConstants.Spacing.md)
     }
 }

@@ -28,9 +28,10 @@ Swift 6 · SwiftUI · SwiftData · Supabase v2+ · Swift Testing · SPM · Xcode
 
 1. Inspect relevant existing code.
 2. Read required harness docs.
-3. Write a plan to `.harness/plans/PLAN_<FEATURE>_<YYYY-MM-DD>.md`.
-4. Snapshot relevant tree/state to `.harness/working-tree/TREE_<FEATURE>_<YYYY-MM-DD>.md`.
-5. Append a decision entry to `.harness/logs/agent.log.md`.
+3. Create or switch to a dedicated git branch for this task.
+4. Write a plan to `.harness/plans/PLAN_<FEATURE>_<YYYY-MM-DD>.md`.
+5. Snapshot relevant tree/state to `.harness/working-tree/TREE_<FEATURE>_<YYYY-MM-DD>.md`.
+6. Append a decision entry to `.harness/logs/agent.log.md`.
 
 ## Hard rules
 
@@ -45,6 +46,7 @@ Swift 6 · SwiftUI · SwiftData · Supabase v2+ · Swift Testing · SPM · Xcode
 - Never touch off-limits files without explicit user approval.
 - Never manually edit `SARAK.xcodeproj/project.pbxproj`.
 - Never add placeholder files such as `README.md` or `.gitkeep` inside `SARAK/`.
+- Each task must have its own git branch.
 
 ## Architecture summary
 

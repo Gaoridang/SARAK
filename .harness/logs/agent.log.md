@@ -9,6 +9,7 @@
 ```
 ### [YYYY-MM-DD] Task: <short task name>
 - **Plan file:** `.harness/plans/PLAN_<name>_<date>.md`
+- **Branch:** `<branch-name>`
 - **Harness docs read:** architecture.md, conventions.md (list all)
 - **Decision:** What approach was chosen and why
 - **Constraints applied:** Which hard rules were relevant
@@ -276,3 +277,33 @@
 - **Build/test result:** Passed with `xcodebuild test -project SARAK.xcodeproj -scheme SARAK -destination 'platform=iOS Simulator,name=iPhone 17'`.
 - **Outcome:** Completed.
 - **Notes:** Swift settings follow-up requires explicit user approval before touching `SARAK.xcodeproj/project.pbxproj`.
+
+---
+
+### [2026-05-02] Task: Home Screenshot Harness + UI Polish
+- **Plan file:** `.harness/plans/PLAN_HOME_SCREENSHOT_POLISH_2026-05-02.md`
+- **Working tree:** `.harness/working-tree/TREE_HOME_SCREENSHOT_POLISH_2026-05-02.md`
+- **Audit file:** `.harness/audits/AUDIT_HOME_VISUAL_2026-05-02.md`
+- **Harness docs read:** visual-review.md, design.md, constraints.md
+- **Decision:** Added DEBUG-only `SARAK_SCREENSHOT_AUTHENTICATED=1` auth bypass, a reusable Home screenshot script, ignored generated screenshot/build outputs, then tightened Home spacing after baseline capture.
+- **Screenshots:** `before-20260502-233842.png`, `after-20260502-234009.png`
+- **Constraints applied:** Home-only polish; no Supabase, sync, data, or Xcode project edits; existing `UIConstants` and localized strings only; screenshots ignored.
+- **Files modified:** `.gitignore`, `AuthViewModel.swift`, `HomeView.swift`, `CurrentlyReadingCard.swift`, `ReadingQueueStrip.swift`
+- **Files created:** `.harness/visual-review.md`, `.harness/scripts/capture-home-screenshot.sh`, plan/tree/audit records
+- **Tests written:** No — visual harness and layout polish only.
+- **SwiftLint result:** Passed.
+- **Build/test result:** Passed with `xcodebuild test -project SARAK.xcodeproj -scheme SARAK -destination 'platform=iOS Simulator,name=iPhone 17'`.
+- **Outcome:** Completed.
+
+---
+
+### [2026-05-02] Task: Harness task branch rule
+- **Plan file:** `.harness/plans/PLAN_HARNESS_TASK_BRANCHES_2026-05-02.md`
+- **Branch:** `harness-task-branches`
+- **Harness docs read:** constraints.md, plans/PLAN_TEMPLATE.md, logs/agent.log.md, CLAUDE.md
+- **Decision:** Made the branch-per-task rule explicit in always-loaded harness guidance, the reusable plan template, and the agent log template.
+- **Constraints applied:** Harness-only documentation change; no source, project, Supabase, sync, or UI changes.
+- **Files modified:** `CLAUDE.md`, `.harness/constraints.md`, `.harness/plans/PLAN_TEMPLATE.md`, `.harness/logs/agent.log.md`
+- **Files created:** `.harness/plans/PLAN_HARNESS_TASK_BRANCHES_2026-05-02.md`
+- **Tests written:** No — documentation-only harness update.
+- **Outcome:** Completed.
