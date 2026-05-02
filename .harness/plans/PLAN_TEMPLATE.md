@@ -20,17 +20,17 @@ List every `.harness/*.md` file read for this task:
 ## 3. Files to create
 | File path | Purpose |
 |-----------|---------|
-| `Sources/Features/.../XView.swift` | SwiftUI view |
-| `Sources/Features/.../XViewModel.swift` | ViewModel |
-| `Sources/Repositories/XRepositoryProtocol.swift` | Protocol |
-| `Sources/Repositories/LocalXRepository.swift` | SwiftData impl |
-| `Sources/Repositories/RemoteXRepository.swift` | Supabase impl |
-| `Tests/Unit/XViewModelTests.swift` | Swift Testing unit tests |
+| `SARAK/Features/<Feature>/XView.swift` | SwiftUI view |
+| `SARAK/Features/<Feature>/XViewModel.swift` | ViewModel |
+| `SARAK/Repositories/Protocols/XRepositoryProtocol.swift` | Protocol |
+| `SARAK/Repositories/Local/LocalXRepository.swift` | SwiftData impl |
+| `SARAK/Repositories/Remote/RemoteXRepository.swift` | Supabase impl |
+| `SARAKTests/Unit/XViewModelTests.swift` | Swift Testing unit tests |
 
 ## 4. Files to modify
 | File path | Change |
 |-----------|--------|
-| `Sources/App/DependencyContainer.swift` | Register new repository |
+| `SARAK/SarakApp.swift` | Register new dependency if needed |
 
 ## 5. Architecture check
 - [ ] View has zero business logic

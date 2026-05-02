@@ -14,12 +14,15 @@
 import Supabase
 
 enum SupabaseService {
-    static let client = SupabaseClient(
-        supabaseURL: URL(string: APIConstants.Supabase.url)!,
-        supabaseKey: APIConstants.Supabase.anonKey
-    )
+    static let client: SupabaseClient = {
+        guard let url = URL(string: APIConstants.Supabase.url) else {
+            preconditionFailure("Invalid Supabase URL — check APIConstants.Supabase.url")
+        }
+        return SupabaseClient(supabaseURL: url, supabaseKey: APIConstants.Supabase.anonKey)
+    }()
 }
 ```
+⚠️ Do NOT use `URL(string:)!` — `force_unwrapping` is a SwiftLint error. Use `guard let` + `preconditionFailure`.
 
 ## Table name rules
 - Always use `APIConstants.Supabase.*` — never inline strings

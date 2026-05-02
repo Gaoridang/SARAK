@@ -38,6 +38,9 @@ enum UIConstants {
 }
 ```
 
+## Empty folders — no placeholder files
+Never create `README.md`, `.gitkeep`, or any non-Swift file inside `SARAK/` subfolders to track empty directories in git. Xcode 16 synchronized groups auto-bundle every file it finds, producing duplicate-resource build errors. Empty feature folders are fine — they reappear the moment a real Swift file lands in them.
+
 ## Error handling
 ```swift
 enum BookError: LocalizedError {
