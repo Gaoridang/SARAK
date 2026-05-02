@@ -25,7 +25,7 @@ struct SARAKApp: App {
 
     var body: some Scene {
         WindowGroup {
-            AuthView()
+            RootView()
                 .onOpenURL { url in
                     SupabaseService.handle(url)
                 }

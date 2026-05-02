@@ -2,7 +2,7 @@
 import SwiftUI
 
 struct AuthView: View {
-    @StateObject private var viewModel = AuthViewModel()
+    @ObservedObject var viewModel: AuthViewModel
 
     var body: some View {
         VStack(spacing: UIConstants.Spacing.lg) {

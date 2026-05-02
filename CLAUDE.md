@@ -1,45 +1,107 @@
 # CLAUDE.md
 # Reading Tracker iOS — Agent Index
-# This file is a map, not a manual. Read the relevant doc before acting.
+
+This file is a concise map, not a manual.
+Read the relevant `.harness/` docs before acting.
 
 ## Stack
-- Swift 6 · SwiftUI · SwiftData · Supabase v2+ · Swift Testing · SPM
 
-## Before every task
-1. Read the relevant `.harness/` doc for the domain you're touching.
-2. Write an execution plan → `.harness/plans/PLAN_<FEATURE>_<DATE>.md`
-3. Snapshot the working tree → `.harness/working-tree/TREE_<FEATURE>_<DATE>.md`
-4. Log your decision → `.harness/logs/agent.log.md` (append only)
+Swift 6 · SwiftUI · SwiftData · Supabase v2+ · Swift Testing · SPM · Xcode 16 synchronized groups
 
-## Harness docs (load only what you need)
-| Domain              | Doc                              |
-|---------------------|----------------------------------|
-| Architecture        | `.harness/architecture.md`       |
-| Naming conventions  | `.harness/conventions.md`        |
-| Hard constraints    | `.harness/constraints.md`        |
-| Sync strategy       | `.harness/sync.md`               |
-| Testing rules       | `.harness/testing.md`            |
-| Supabase usage      | `.harness/supabase.md`           |
-| Off-limits files    | `.harness/off-limits.md`         |
+## Always load first
 
-## Hard rules (always active, no exceptions)
-- No force unwraps `!`
-- No `import Supabase` in Views
-- No hardcoded strings — use constants
-- Swift 6 strict concurrency — `@MainActor` on all ViewModels
-- 200-line file limit — split before adding
-- Tests required for every new ViewModel method or business logic — not just "features"
-- Agent log entry required before every commit — no exceptions
-- Never touch off-limits files without explicit user approval
+- `.harness/constraints.md`
+- `.harness/off-limits.md`
+
+## Load as needed
+
+| Task | Read |
+|---|---|
+| Adding features, screens, ViewModels, repositories, services | `.harness/architecture.md` |
+| Naming files, types, variables, constants, errors | `.harness/conventions.md` |
+| Writing or reviewing tests | `.harness/testing.md` |
+| Touching auth, Supabase, remote repositories, DTOs | `.harness/supabase.md` |
+| Touching writes, offline behavior, repositories, sync | `.harness/sync.md` |
+
+## Before coding
+
+1. Inspect relevant existing code.
+2. Read required harness docs.
+3. Write a plan to `.harness/plans/PLAN_<FEATURE>_<YYYY-MM-DD>.md`.
+4. Snapshot relevant tree/state to `.harness/working-tree/TREE_<FEATURE>_<YYYY-MM-DD>.md`.
+5. Append a decision entry to `.harness/logs/agent.log.md`.
+
+## Hard rules
+
+- No force unwraps.
+- No `import Supabase` in Views or ViewModels.
+- No hardcoded user-facing strings in production UI.
+- All ViewModels are `@MainActor`.
+- ViewModels depend on injected protocols, not concrete implementations.
+- Views do not call repositories, services, SwiftData, Supabase, or networking.
+- Keep files under 200 lines.
+- Tests are required for new ViewModel methods, repository logic, services, and business logic.
+- Never touch off-limits files without explicit user approval.
+- Never manually edit `SARAK.xcodeproj/project.pbxproj`.
+- Never add placeholder files such as `README.md` or `.gitkeep` inside `SARAK/`.
+
+## Architecture summary
+
+Default flow:
+
+View → ViewModel → injected Protocol → Repository or Service
+
+`SyncCoordinator` is the only component allowed to coordinate local and remote stores together.
+
+Shared app state must have one owner. For example, `RootView` may own `AuthViewModel`; child views must receive it, not create duplicates.
+
+## Xcode 16 note
+
+Files under `SARAK/` are auto-discovered by synchronized groups.
+
+- Add Swift files directly.
+- Do not hand-edit the project file.
+- Do not place non-source files inside `SARAK/`.
 
 ## Stuck protocol
-Stop. State the ambiguity. Propose two options with tradeoffs. Wait for approval.
-Never violate architecture boundaries to finish faster.
 
-## PR checklist
-- [ ] Build passes
-- [ ] SwiftLint passes (zero errors)
-- [ ] Tests written and passing
-- [ ] Plan file created
-- [ ] Agent log updated
-- [ ] No off-limits files modified
+If blocked:
+
+1. Stop.
+2. State the ambiguity.
+3. Propose two options with tradeoffs.
+4. Wait for user approval.
+
+Do not bypass the harness to finish faster.
+
+## Harness compliance audit mode
+
+When asked to fix existing code against the harness:
+
+1. Do not immediately refactor.
+2. Create `.harness/audits/AUDIT_<AREA>_<YYYY-MM-DD>.md`.
+3. List inspected files, violations, severity, proposed fixes, off-limits risk, and PR slices.
+4. Wait for approval before code changes.
+
+## Before commit
+
+- Re-read the plan.
+- Check changed files against off-limits.
+- Run build.
+- Run SwiftLint.
+- Run tests.
+- Confirm no manual `project.pbxproj` edits.
+- Confirm no placeholder files inside `SARAK/`.
+- Confirm agent log was updated.
+
+## Commit format
+
+Use Conventional Commits.
+
+Examples:
+
+- `feat: add reading session timer`
+- `fix: remove duplicate auth view model ownership`
+- `refactor: inject book repository protocol`
+- `test: add goal view model tests`
+- `chore: update harness docs`
