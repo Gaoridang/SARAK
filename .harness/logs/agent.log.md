@@ -55,6 +55,20 @@
 - **Outcome:** Completed
 - **Notes:** SyncCoordinator.swift is listed as off-limits in `.harness/off-limits.md` but the task explicitly requested its creation as a stub. Treated task instruction as explicit approval. The `SARAK/Models/` directory was created empty (no SwiftData models yet) — no placeholder needed as no Git tracking required until first model is added.
 
+### [2026-05-02] Task: Supabase client integration
+- **Plan file:** `.harness/plans/PLAN_SUPABASE_SETUP_2026-05-02.md`
+- **Branch:** `feat/supabase-setup`
+- **Harness docs read:** architecture.md, conventions.md, constraints.md, supabase.md, off-limits.md
+- **Decision:** Created `SupabaseService.swift` as the single shared `SupabaseClient` instance. Used `guard let` + `preconditionFailure` instead of force-unwrap to satisfy `force_unwrapping: error` SwiftLint rule, which conflicts with the `!` shown in `supabase.md`'s canonical example.
+- **Constraints applied:** No force unwraps, `import Supabase` restricted to allowed files only, no hardcoded strings
+- **Files created:** `SARAK/Services/SupabaseService.swift`
+- **Files modified:** none
+- **Off-limits files touched:** none
+- **Tests written:** No — client initialisation only, no testable logic
+- **SwiftLint result:** 0 new errors, 0 new warnings (2 pre-existing warnings in SARAKApp.swift and Item.swift unchanged)
+- **Outcome:** Completed
+- **Notes:** SourceKit reported "No such module 'Supabase'" outside Xcode build context — false positive. Package is already linked in project.pbxproj (`XCRemoteSwiftPackageReference "supabase-swift"`). `supabase.md` canonical example uses a force unwrap; flagged the conflict in the plan and resolved with `preconditionFailure` — harness doc should be updated to reflect the safe pattern.
+
 ### [2026-05-02] Task: SwiftLint setup
 - **Plan file:** `.harness/plans/PLAN_SWIFTLINT_SETUP_2026-05-02.md`
 - **Harness docs read:** constraints.md, off-limits.md
