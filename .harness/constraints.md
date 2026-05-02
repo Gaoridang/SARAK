@@ -234,6 +234,14 @@ Use XCTest only for UI tests and critical user journeys.
 Do not use the real SwiftData container in tests.
 Use an in-memory container.
 
+## Local verification approval
+
+Agents do not need separate user approval to run local build, SwiftLint, or test commands that are already part of the requested task or harness definition of done.
+
+Run verification proactively before finishing work unless the task is documentation-only and the plan explicitly records why build, lint, or tests were skipped.
+
+This does not grant permission to modify off-limits files or use production services.
+
 ---
 
 ## Xcode project safety
