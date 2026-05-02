@@ -24,6 +24,33 @@
 
 <!-- Append new entries below this line. Never edit above. -->
 
+### [2026-05-02] Task: Kakao login via Supabase OAuth
+- **Plan file:** `.harness/plans/PLAN_KAKAO_AUTH_2026-05-02.md`
+- **Working tree:** `.harness/working-tree/TREE_KAKAO_AUTH_2026-05-02.md`
+- **Branch:** `feat/kakao-auth`
+- **Harness docs read:** architecture.md, conventions.md, constraints.md, supabase.md, testing.md, off-limits.md
+- **Decision:** Used Supabase built-in OAuth (PKCE) with `signInWithOAuth(provider: .kakao)` — no native Kakao SDK needed. Added `SupabaseService.handle(_:)` wrapper so `SARAKApp` can handle deep links without importing Supabase. Defined `AuthServiceProtocol` for testability; `AuthViewModel` depends only on the protocol.
+- **Constraints applied:** No force unwraps (redirectURL uses guard/preconditionFailure), `import Supabase` only in allowed files (AuthService, SupabaseService), no hardcoded strings (StringConstants + Localizable.strings), @MainActor on AuthViewModel, 200-line limit respected
+- **Files created:**
+  - `SARAK/Features/Auth/AuthViewModel.swift`
+  - `SARAK/Features/Auth/AuthView.swift`
+  - `SARAK/Constants/StringConstants.swift`
+  - `SARAKTests/AuthViewModelTests.swift`
+  - `.harness/working-tree/TREE_KAKAO_AUTH_2026-05-02.md`
+- **Files modified:**
+  - `SARAK/Services/AuthService.swift` — full implementation + AuthServiceProtocol
+  - `SARAK/Services/SupabaseService.swift` — added handle(_:) wrapper
+  - `SARAK/Constants/APIConstants.swift` — added Auth.redirectURL
+  - `SARAK/Constants/UIConstants.swift` — added Colors.kakaoYellow/kakaoLabel
+  - `SARAK/Resources/Localizable.strings` — added auth string keys
+  - `SARAK/SARAKApp.swift` — AuthView as root + onOpenURL handler
+- **Tests written:** Yes — `SARAKTests/AuthViewModelTests.swift` (4 tests: signInSuccess, signInFailure, signOutSuccess, signOutFailure)
+- **SwiftLint result:** 0 new errors, 0 new warnings
+- **Build result:** SUCCEEDED
+- **Test result:** 4/4 passed
+- **Outcome:** Completed
+- **Notes:** (1) `ObservableObject`/`@Published` require `import Combine` — missed on first pass, caught by build. (2) `SARAKApp` cannot import Supabase per supabase.md allowed list — resolved by adding `SupabaseService.handle(_:)` wrapper. (3) URL scheme `sarak` must be registered manually in Xcode (Target → Info → URL Types) — cannot be done from code without touching project.pbxproj.
+
 ### [2026-05-02] Task: Tighten hard rules in CLAUDE.md
 - **Branch:** `feat/supabase-setup`
 - **Harness docs read:** none — CLAUDE.md edit only

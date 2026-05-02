@@ -12,4 +12,12 @@ enum APIConstants {
         static let goalsTable = "goals"
         static let notesTable = "notes"
     }
+    enum Auth {
+        static let redirectURL: URL = {
+            guard let url = URL(string: "sarak://auth/callback") else {
+                preconditionFailure("Invalid OAuth redirect URL — check APIConstants.Auth.redirectURL")
+            }
+            return url
+        }()
+    }
 }
