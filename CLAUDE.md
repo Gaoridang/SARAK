@@ -22,6 +22,7 @@ Swift 6 · SwiftUI · SwiftData · Supabase v2+ · Swift Testing · SPM · Xcode
 | Writing or reviewing tests | `.harness/testing.md` |
 | Touching auth, Supabase, remote repositories, DTOs | `.harness/supabase.md` |
 | Touching writes, offline behavior, repositories, sync | `.harness/sync.md` |
+| Styling views, components, or visual treatments | `.harness/design.md` |
 
 ## Before coding
 
