@@ -27,17 +27,26 @@ final class LibraryViewModel: ObservableObject {
         }
     }
 
-    func addBook(title: String, author: String) async {
+    func addBook(title: String, author: String, totalPages: Int? = nil, genre: String? = nil) async {
         isLoading = true
         errorMessage = nil
         do {
-            _ = try await bookRepository.addBook(title: title, author: author)
+            let book = try await bookRepository.addBook(title: title, author: author)
+            if totalPages != nil || genre != nil {
+                book.totalPages = totalPages
+                book.genre = genre.flatMap { $0.isEmpty ? nil : $0 }
+                try await bookRepository.updateBook(book)
+            }
             books = try await bookRepository.fetchBooks()
             triggerSync()
         } catch {
             errorMessage = error.localizedDescription
         }
         isLoading = false
+    }
+
+    func makeDetailViewModel(for book: Book) -> BookDetailViewModel {
+        BookDetailViewModel(book: book, bookRepository: bookRepository, syncTrigger: syncTrigger)
     }
 
     private func triggerSync() {

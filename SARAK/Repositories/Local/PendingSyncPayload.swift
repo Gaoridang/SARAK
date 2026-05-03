@@ -7,6 +7,10 @@ struct BookSyncPayload: Codable {
     let author: String
     let status: String
     let progress: Double
+    let totalPages: Int?
+    let currentPage: Int?
+    let genre: String?
+    let notes: String?
     let createdAt: Date
     let updatedAt: Date
     let deletedAt: Date?

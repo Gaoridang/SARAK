@@ -15,23 +15,16 @@ struct DailyGoalRing: View {
         if todayGoalMinutes == 0 {
             emptyState
         } else {
-            ringView
+            goalCard
         }
     }
 
-    private var ringView: some View {
-        ZStack {
-            Circle()
-                .stroke(UIConstants.Colors.hairlineSoft, lineWidth: 12)
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(
-                    UIConstants.Colors.primary,
-                    style: StrokeStyle(lineWidth: 12, lineCap: .round)
-                )
-                .rotationEffect(.degrees(-90))
-                .animation(.easeInOut, value: progress)
-            VStack(spacing: UIConstants.Spacing.xxs) {
+    private var goalCard: some View {
+        HStack(spacing: UIConstants.Spacing.md) {
+            VStack(alignment: .leading, spacing: UIConstants.Spacing.xxs) {
+                Text(StringConstants.Home.dailyGoalLabel)
+                    .font(UIConstants.Typography.titleSM)
+                    .foregroundStyle(UIConstants.Colors.ink)
                 Text(
                     String(
                         format: StringConstants.Home.goalProgressFormat,
@@ -39,14 +32,37 @@ struct DailyGoalRing: View {
                         todayGoalMinutes
                     )
                 )
-                .font(UIConstants.Typography.bodyStrong)
-                .foregroundStyle(UIConstants.Colors.ink)
-                Text(StringConstants.Home.dailyGoalLabel)
-                    .font(UIConstants.Typography.captionUppercase)
-                    .foregroundStyle(UIConstants.Colors.muted)
+                .font(UIConstants.Typography.caption)
+                .foregroundStyle(UIConstants.Colors.muted)
             }
+
+            Spacer()
+
+            ringView
         }
-        .frame(width: 120, height: 120)
+        .padding(.horizontal, UIConstants.Spacing.smx)
+        .padding(.vertical, UIConstants.Spacing.md)
+        .background(UIConstants.Colors.surface)
+        .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.xl, style: .continuous))
+    }
+
+    private var ringView: some View {
+        ZStack {
+            Circle()
+                .stroke(UIConstants.Colors.divider, lineWidth: 3)
+            Circle()
+                .trim(from: 0, to: progress)
+                .stroke(
+                    UIConstants.Colors.primary,
+                    style: StrokeStyle(lineWidth: 3, lineCap: .round)
+                )
+                .rotationEffect(.degrees(-90))
+                .animation(.easeInOut, value: progress)
+            Text("\(Int(progress * 100))%")
+                .font(UIConstants.Typography.captionUppercase)
+                .foregroundStyle(UIConstants.Colors.ink)
+        }
+        .frame(width: UIConstants.Size.progressRing, height: UIConstants.Size.progressRing)
     }
 
     private var emptyState: some View {

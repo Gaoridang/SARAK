@@ -355,3 +355,35 @@
 - **SwiftLint result:** Passed with 0 violations.
 - **Build/test result:** Passed with `xcodebuild -quiet -project SARAK.xcodeproj -scheme SARAK -destination generic/platform=iOS build` and `xcodebuild -quiet -project SARAK.xcodeproj -scheme SARAK -destination 'platform=iOS Simulator,name=iPhone 17' test`.
 - **Outcome:** Completed.
+
+---
+
+### [2026-05-03] Task: Library Snuggly Bubble Redesign
+- **Plan file:** stored at `~/.claude/plans/check-follwing-changes-and-snuggly-bubble.md`
+- **Working tree:** `.harness/working-tree/TREE_LIBRARY_SNUGGLY_BUBBLE_2026-05-03.md`
+- **Branch:** `feat/library-snuggly-bubble`
+- **Harness docs read:** CLAUDE.md, constraints.md, off-limits.md, architecture.md, conventions.md, design.md
+- **Decision:** Replace plain `List` in `LibraryView` with `ScrollView + LazyVStack` of snuggly bubble `BookRowCard` components, remove toolbar `+` button, add `FABButtonStyle` floating action button. Design reference: `UI/CardButtonRef.png`. Zero ViewModel/data changes.
+- **Constraints applied:** All spacing/color/typography via `UIConstants` tokens, `Book` domain model used directly (consistent with existing pattern), no `Supabase` imports, all files under 200 lines, localization keys dot-separated per conventions.md, `SyncCoordinator` not touched.
+- **Files created:** `SARAK/Features/Library/Components/BookRowCard.swift` (74 lines), `.harness/working-tree/TREE_LIBRARY_SNUGGLY_BUBBLE_2026-05-03.md`
+- **Files modified:** `CompactDesignStyles.swift` (added `FABButtonStyle`), `LibraryView.swift` (full rewrite), `StringConstants.swift` (4 new Library keys), `Localizable.strings` (4 new entries)
+- **Tests written:** No — pure visual/component change; no new ViewModel methods, repository logic, or business logic added.
+- **SwiftLint result:** Passed with 0 violations.
+- **Build/test result:** Build passed; all test cases passed on iPhone 17 simulator.
+- **Screenshot:** `.harness/screenshots/home/library-snuggly-bubble-20260503-142315.png`
+- **Outcome:** Completed.
+
+---
+
+### [2026-05-03] Task: Book Detail View
+- **Plan file:** `.harness/plans/PLAN_BOOK_DETAIL_2026-05-03.md`
+- **Branch:** `feat/book-detail`
+- **Harness docs read:** CLAUDE.md, constraints.md, off-limits.md, architecture.md, design.md, conventions.md
+- **Decision:** Push `BookDetailView` via `NavigationLink` from `LibraryView`. Added `makeDetailViewModel(for:)` factory on `LibraryViewModel` so `LibraryView` doesn't need direct repository access. Switched `LibraryView` from `.task` to `.onAppear` for load so the list refreshes on pop-back.
+- **Constraints applied:** All spacing/color/typography via `UIConstants` tokens, no `Supabase` imports, all files under 200 lines, `SyncCoordinator` not touched, no hardcoded strings.
+- **Files created:** `SARAK/Features/Books/BookDetailView.swift`, `SARAK/Features/Books/BookDetailViewModel.swift`, `SARAK/Features/Books/EditBookView.swift`, `SARAKTests/BookDetailViewModelTests.swift`, `.harness/plans/PLAN_BOOK_DETAIL_2026-05-03.md`
+- **Files modified:** `SARAK/Features/Library/LibraryViewModel.swift` (factory method), `SARAK/Features/Library/LibraryView.swift` (NavigationLink + onAppear), `SARAK/Constants/StringConstants.swift` (BookDetail enum), `SARAK/Resources/Localizable.strings` (13 new Korean entries)
+- **Tests written:** 5 unit tests in `BookDetailViewModelTests` — status update, progress clamping, info edit, delete, failure error message.
+- **SwiftLint result:** Passed with 0 violations.
+- **Build/test result:** Build passed; all 5 new tests + all existing tests passed on iPhone 17 simulator.
+- **Outcome:** Completed.

@@ -60,6 +60,10 @@ final class LocalBookRepository: BookRepositoryProtocol {
             author: book.author,
             status: book.status.rawValue,
             progress: book.progress,
+            totalPages: book.totalPages,
+            currentPage: book.currentPage,
+            genre: book.genre,
+            notes: book.notes,
             createdAt: book.createdAt,
             updatedAt: book.updatedAt,
             deletedAt: book.deletedAt

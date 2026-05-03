@@ -11,36 +11,50 @@ struct LibraryView: View {
 
     var body: some View {
         NavigationStack {
-            List {
+            ZStack(alignment: .bottomTrailing) {
+                scrollContent
+                fab
+            }
+            .navigationTitle(StringConstants.Tab.library)
+        }
+        .onAppear { Task { await viewModel.load() } }
+        .sheet(isPresented: $isShowingAddBook) {
+            AddBookView { title, author, totalPages, genre in
+                await viewModel.addBook(title: title, author: author, totalPages: totalPages, genre: genre)
+            }
+        }
+    }
+
+    private var scrollContent: some View {
+        ScrollView {
+            LazyVStack(spacing: UIConstants.Spacing.cardSpacingCompact) {
                 if viewModel.books.isEmpty {
-                    Text(StringConstants.Library.empty)
-                        .foregroundStyle(UIConstants.Colors.muted)
+                    EmptyStateCard(
+                        message: StringConstants.Library.empty,
+                        actionTitle: StringConstants.Library.addBook
+                    ) { isShowingAddBook = true }
                 } else {
                     ForEach(viewModel.books, id: \.id) { book in
-                        VStack(alignment: .leading, spacing: UIConstants.Spacing.xxs) {
-                            Text(book.title)
-                                .font(UIConstants.Typography.bodyStrong)
-                            Text(book.author)
-                                .font(UIConstants.Typography.caption)
-                                .foregroundStyle(UIConstants.Colors.muted)
+                        NavigationLink {
+                            BookDetailView(viewModel: viewModel.makeDetailViewModel(for: book))
+                        } label: {
+                            BookRowCard(book: book)
                         }
+                        .buttonStyle(.plain)
                     }
                 }
             }
-                .navigationTitle(StringConstants.Tab.library)
-                .toolbar {
-                    Button {
-                        isShowingAddBook = true
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                }
+            .padding(.horizontal, UIConstants.Spacing.md)
+            .padding(.top, UIConstants.Spacing.sm)
+            .padding(.bottom, UIConstants.Spacing.xxl)
         }
-        .task { await viewModel.load() }
-        .sheet(isPresented: $isShowingAddBook) {
-            AddBookView { title, author in
-                await viewModel.addBook(title: title, author: author)
-            }
+    }
+
+    private var fab: some View {
+        Button { isShowingAddBook = true } label: {
+            Image(systemName: "plus")
         }
+        .buttonStyle(FABButtonStyle())
+        .padding(UIConstants.Spacing.lg)
     }
 }

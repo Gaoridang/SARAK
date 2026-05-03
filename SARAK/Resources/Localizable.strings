@@ -22,10 +22,15 @@
 "home.progress_format" = "%d%% 읽음";
 "home.start_session" = "독서 시작";
 "home.stop_session" = "독서 종료";
+"home.continue_reading" = "계속 읽기";
 "home.no_current_book" = "아직 읽고 있는 책이 없어요";
 "home.add_book" = "책 추가하기";
 "home.goal_progress_format" = "%d / %d분";
 "home.daily_goal_label" = "오늘의 목표";
+"home.your_goals" = "나의 목표";
+"home.edit_goal" = "수정";
+"home.page_progress_format" = "%d / %d 페이지";
+"home.up_next_format" = "다음 책 (%d)";
 "home.no_goal_set" = "오늘의 목표를 설정하세요";
 "home.set_goal" = "설정하기";
 "home.reading_queue" = "읽을 책";
@@ -36,6 +41,9 @@
 "book.add_title" = "책 추가";
 "book.title_placeholder" = "책 제목";
 "book.author_placeholder" = "저자";
+"book.total_pages_placeholder" = "총 페이지 수";
+"book.genre_placeholder" = "장르";
+"book.notes_placeholder" = "메모";
 
 /* Goal */
 "goal.set_title" = "목표 설정";
@@ -43,6 +51,30 @@
 
 /* Library */
 "library.empty" = "아직 저장한 책이 없어요";
+"library.add_book" = "책 추가하기";
+"library.status.queued" = "대기";
+"library.status.reading" = "읽는 중";
+"library.status.finished" = "완독";
+
+/* Book Detail */
+"book_detail.start_reading" = "읽기 시작";
+"book_detail.mark_finished" = "완독 완료";
+"book_detail.read_again" = "다시 읽기";
+"book_detail.edit_info" = "정보 수정";
+"book_detail.delete_book" = "책 삭제";
+"book_detail.delete_confirm_title" = "책을 삭제할까요?";
+"book_detail.delete_confirm_message" = "이 작업은 되돌릴 수 없어요.";
+"book_detail.delete" = "삭제";
+"book_detail.progress_label" = "진행률";
+"book_detail.added_label" = "추가일";
+"book_detail.edit_title" = "책 정보 수정";
+"book_detail.title_label" = "제목";
+"book_detail.author_label" = "저자";
+"book_detail.pages_label" = "읽은 페이지";
+"book_detail.pages_format" = "%d / %d 페이지";
+"book_detail.genre_label" = "장르";
+"book_detail.notes_label" = "메모";
+"book_detail.total_pages_label" = "총 페이지";
 
 /* Stats */
 "stats.total_minutes" = "누적 독서 시간";

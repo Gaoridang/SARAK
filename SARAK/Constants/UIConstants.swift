@@ -5,83 +5,140 @@ import SwiftUI
 
 enum UIConstants {
     enum Spacing {
-        static let xxs: CGFloat = 4
-        static let sm: CGFloat = 8
-        static let md: CGFloat = 16
-        static let lg: CGFloat = 24
-        static let xl: CGFloat = 32
+        static let space1: CGFloat = 4
+        static let space2: CGFloat = 8
+        static let space3: CGFloat = 10
+        static let space4: CGFloat = 12
+        static let space5: CGFloat = 14
+        static let space6: CGFloat = 16
+        static let space7: CGFloat = 18
+        static let space8: CGFloat = 22
+        static let space9: CGFloat = 24
+        static let space10: CGFloat = 28
+        static let space11: CGFloat = 32
+
+        static let xxs = space1
+        static let xs = space3
+        static let sm = space2
+        static let smd = space5
+        static let md = space6
+        static let smx = space7
+        static let lgs = space8
+        static let lg = space9
+        static let lgx = space10
+        static let xl = space11
         static let xxl: CGFloat = 48
         static let section: CGFloat = 64
-        static let cardPaddingCompact: CGFloat = 16
-        static let cardPaddingTight: CGFloat = 12
+        static let cardPaddingCompact = space6
+        static let cardPaddingTight = space4
         static let cardSpacingCompact: CGFloat = 12
         static let buttonHorizontal: CGFloat = 20
     }
     enum CornerRadius {
-        static let xs: CGFloat = 4
-        static let sm: CGFloat = 8
-        static let md: CGFloat = 12
-        static let lg: CGFloat = 16
-        static let xl: CGFloat = 24
-        static let cardCompact: CGFloat = 18
+        static let sm: CGFloat = 6
+        static let md: CGFloat = 8
+        static let lg: CGFloat = 14
+        static let xl: CGFloat = 16
+        static let twoXL: CGFloat = 20
+        static let pill: CGFloat = 9999
+
+        static let xs = sm
+        static let cardCompact = xl
+        static let hero = twoXL
     }
     enum Size {
-        static let buttonHeight: CGFloat = 46
-        static let compactButtonHeight: CGFloat = 40
-        static let iconButton: CGFloat = 44
+        static let hitTarget: CGFloat = 44
+        static let buttonHeight: CGFloat = 44
+        static let compactButtonHeight: CGFloat = 42
+        static let iconButton: CGFloat = 32
+        static let iconButtonHitTarget = hitTarget
+        static let avatar: CGFloat = 40
+        static let iconCircle: CGFloat = 32
+        static let progressRing: CGFloat = 48
+        static let progressTrack: CGFloat = 4
     }
     enum Colors {
         // Third-party brand — Kakao guidelines mandate these exact values. Do not replace.
         static let kakaoYellow = Color(red: 0.992, green: 0.898, blue: 0.0)
         static let kakaoLabel = Color(red: 0.137, green: 0.122, blue: 0.118)
         // Surface
-        static let canvas = Color(red: 0.961, green: 0.961, blue: 0.961)
-        static let canvasSoft = Color(red: 0.980, green: 0.980, blue: 0.980)
+        static let canvas = Color.white
+        static let surface = Color(red: 0.957, green: 0.957, blue: 0.957)
+        static let surfaceSoft = Color(white: 0.980)
+        static let border = Color(white: 0.933)
+        static let divider = Color(white: 0.902)
+        static let canvasSoft = surfaceSoft
         static let surfaceCard = Color.white
-        static let surfaceCompact = Color(red: 0.973, green: 0.973, blue: 0.973)
-        static let surfaceStrong = Color(red: 0.941, green: 0.937, blue: 0.929)
+        static let surfaceCompact = surface
+        static let surfaceStrong = border
         // Primary action
-        static let primary = Color(red: 0.161, green: 0.145, blue: 0.137)
-        static let primaryActive = Color(red: 0.047, green: 0.039, blue: 0.035)
+        static let primary = Color(white: 0.122)
+        static let primaryActive = Color(white: 0.059)
         // Text
-        static let ink = Color(red: 0.047, green: 0.039, blue: 0.035)
-        static let body = Color(red: 0.306, green: 0.306, blue: 0.306)
-        static let bodyStrong = Color(red: 0.161, green: 0.145, blue: 0.137)
-        static let muted = Color(red: 0.467, green: 0.443, blue: 0.412)
-        static let mutedSoft = Color(red: 0.659, green: 0.635, blue: 0.620)
+        static let ink = Color(white: 0.122)
+        static let body = Color(white: 0.420)
+        static let bodyStrong = Color(white: 0.290)
+        static let muted = Color(white: 0.604)
+        static let mutedSoft = Color(white: 0.784)
         static let onPrimary = Color.white
+        // On-dark surfaces (hero card)
+        static let onDark = Color.white
+        static let onDarkMuted = Color(white: 0.710)
+        static let onDarkSoft = Color(white: 0.604)
+        static let darkTrack = Color(white: 0.227)
         // Hairlines
-        static let hairline = Color(red: 0.906, green: 0.898, blue: 0.894)
-        static let hairlineSoft = Color(red: 0.941, green: 0.937, blue: 0.929)
-        static let hairlineStrong = Color(red: 0.839, green: 0.827, blue: 0.820)
-        // Atmospheric gradient orbs — decoration only, never as button fills or text colors
-        static let gradientMint = Color(red: 0.655, green: 0.898, blue: 0.827)
-        static let gradientPeach = Color(red: 0.957, green: 0.773, blue: 0.659)
-        static let gradientLavender = Color(red: 0.784, green: 0.722, blue: 0.878)
-        static let gradientSky = Color(red: 0.659, green: 0.784, blue: 0.910)
-        static let gradientRose = Color(red: 0.910, green: 0.722, blue: 0.769)
+        static let hairline = divider
+        static let hairlineSoft = border
+        static let hairlineStrong = Color(white: 0.816)
+        // Session accent — active reading state only, never decorative
+        static let accent = Color(red: 1.0, green: 0.902, blue: 0.659)
+        // Book cover placeholder tones
+        static let coverWarm = Color(red: 0.910, green: 0.867, blue: 0.816)
+        static let coverCool = Color(red: 0.847, green: 0.871, blue: 0.910)
+        static let coverSage = Color(red: 0.886, green: 0.886, blue: 0.855)
+        static let coverInk = Color(white: 0.122)
         // Semantic
         static let semanticSuccess = Color(red: 0.086, green: 0.639, blue: 0.290)
         static let semanticError = Color(red: 0.863, green: 0.149, blue: 0.149)
     }
     enum Typography {
-        // Display — New York serif, weight .light (editorial signature; never .bold)
-        static let displayMega: Font = .system(size: 64, weight: .light, design: .serif)
-        static let displayXL: Font = .system(size: 48, weight: .light, design: .serif)
-        static let displayLG: Font = .system(size: 36, weight: .light, design: .serif)
-        static let displayMD: Font = .system(size: 32, weight: .light, design: .serif)
-        static let displaySM: Font = .system(size: 24, weight: .light, design: .serif)
-        // Title — SF Pro, weight .medium
-        static let titleMD: Font = .system(size: 20, weight: .medium)
-        static let titleSM: Font = .system(size: 18, weight: .medium)
-        // Body — SF Pro
-        static let bodyMD: Font = .system(size: 16, weight: .regular)
-        static let bodyStrong: Font = .system(size: 16, weight: .medium)
-        static let bodySM: Font = .system(size: 15, weight: .regular)
-        // Micro
-        static let caption: Font = .system(size: 14, weight: .regular)
-        static let captionUppercase: Font = .system(size: 12, weight: .semibold)
-        static let button: Font = .system(size: 15, weight: .medium)
+        static let trackingWide: CGFloat = 1.4
+        static let trackingWider: CGFloat = 1.5
+
+        // Inter tokens mapped to native SF/system fonts.
+        static let displayMD: Font = .system(size: 26, weight: .bold)
+        static let displaySM: Font = .system(size: 22, weight: .semibold)
+        static let titleMD: Font = .system(size: 22, weight: .semibold)
+        static let titleSM: Font = .system(size: 16, weight: .semibold)
+        static let bodyMD: Font = .system(size: 14, weight: .regular)
+        static let bodyStrong: Font = .system(size: 14, weight: .semibold)
+        static let bodySM: Font = .system(size: 13, weight: .regular)
+        static let caption: Font = .system(size: 12, weight: .regular)
+        static let captionUppercase: Font = .system(size: 10, weight: .semibold)
+        static let button: Font = .system(size: 14, weight: .semibold)
         static let navLink: Font = .system(size: 15, weight: .medium)
+    }
+
+    enum Shadow {
+        static let smColor = Color.black.opacity(0.06)
+        static let smRadius: CGFloat = 3
+        static let smX: CGFloat = 0
+        static let smY: CGFloat = 1
+
+        static let mdColor = Color.black.opacity(0.12)
+        static let mdRadius: CGFloat = 16
+        static let mdX: CGFloat = 0
+        static let mdY: CGFloat = 6
+
+        static let lgColor = Color.black.opacity(0.18)
+        static let lgRadius: CGFloat = 36
+        static let lgX: CGFloat = 0
+        static let lgY: CGFloat = 18
+    }
+
+    enum Motion {
+        static let fast: Double = 0.12
+        static let base: Double = 0.20
+        static let slow: Double = 0.32
     }
 }
