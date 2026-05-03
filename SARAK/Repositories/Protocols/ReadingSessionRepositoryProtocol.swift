@@ -8,3 +8,11 @@ protocol ReadingSessionRepositoryProtocol {
     func startSession(bookID: UUID) async throws -> ReadingSession
     func stopSession(id: UUID) async throws -> ReadingSession
 }
+
+@MainActor
+protocol SessionSyncMergeRepositoryProtocol {
+    func mergeRemoteSessions(
+        _ sessions: [ReadingSession],
+        preservingPendingIDs pendingIDs: Set<UUID>
+    ) async throws
+}

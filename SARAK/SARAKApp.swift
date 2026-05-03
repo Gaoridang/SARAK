@@ -13,9 +13,6 @@ struct SARAKApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()
-                .onOpenURL { url in
-                    SupabaseService.handle(url)
-                }
         }
         .modelContainer(for: [
             Book.self,

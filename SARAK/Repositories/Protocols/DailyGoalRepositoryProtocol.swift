@@ -6,3 +6,8 @@ protocol DailyGoalRepositoryProtocol {
     func goal(for date: Date) async throws -> DailyGoal?
     func setGoal(minutes: Int, for date: Date) async throws -> DailyGoal
 }
+
+@MainActor
+protocol DailyGoalSyncMergeRepositoryProtocol {
+    func mergeRemoteGoals(_ goals: [DailyGoal], preservingPendingIDs pendingIDs: Set<UUID>) async throws
+}

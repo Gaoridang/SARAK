@@ -4,4 +4,5 @@ import Foundation
 @MainActor
 protocol SyncTriggerProtocol {
     func syncPendingChanges() async
+    func syncAfterLogin() async
 }

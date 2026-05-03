@@ -1,4 +1,5 @@
 // AuthViewModelTests.swift — SARAK
+import Foundation
 import Testing
 @testable import SARAK
 
@@ -47,6 +48,18 @@ struct AuthViewModelTests {
         #expect(viewModel.errorMessage != nil)
         #expect(viewModel.isLoading == false)
     }
+
+    @Test("open URL refreshes authentication state")
+    func handleOpenURLRefreshesSession() async throws {
+        let service = MockAuthService()
+        let viewModel = AuthViewModel(authService: service)
+        let url = try #require(URL(string: "sarak://auth/callback"))
+
+        await viewModel.handleOpenURL(url)
+
+        #expect(viewModel.isAuthenticated == true)
+        #expect(service.didHandleOpenURL == true)
+    }
 }
 
 // MARK: - Mock
@@ -55,6 +68,7 @@ private final class MockAuthService: AuthServiceProtocol, @unchecked Sendable {
     // @unchecked Sendable safe: only mutated serially within test setup, never concurrently
     private var signedIn: Bool
     private let shouldFail: Bool
+    private(set) var didHandleOpenURL = false
 
     init(signedIn: Bool = false, shouldFail: Bool = false) {
         self.signedIn = signedIn
@@ -73,6 +87,11 @@ private final class MockAuthService: AuthServiceProtocol, @unchecked Sendable {
     func signOut() async throws {
         if shouldFail { throw MockAuthError.intentional }
         signedIn = false
+    }
+
+    func handleOpenURL(_ url: URL) async {
+        didHandleOpenURL = true
+        signedIn = true
     }
 }
 
