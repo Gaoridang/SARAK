@@ -10,8 +10,8 @@ final class AuthViewModel: ObservableObject {
 
     private let authService: any AuthServiceProtocol
 
-    init(authService: any AuthServiceProtocol = AuthService()) {
-        self.authService = authService
+    init(authService: (any AuthServiceProtocol)? = nil) {
+        self.authService = authService ?? AuthService()
         #if DEBUG
         if ProcessInfo.processInfo.environment["SARAK_SCREENSHOT_AUTHENTICATED"] == "1" {
             isAuthenticated = true

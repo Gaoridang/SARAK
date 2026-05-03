@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ReadingQueueStrip: View {
     let books: [HomeBookDisplayModel]
+    let onAddBook: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: UIConstants.Spacing.sm) {
@@ -14,13 +15,14 @@ struct ReadingQueueStrip: View {
             if books.isEmpty {
                 EmptyStateCard(
                     message: StringConstants.Home.emptyQueue,
-                    actionTitle: StringConstants.Home.addBook
+                    actionTitle: StringConstants.Home.addBook,
+                    action: onAddBook
                 )
                     .padding(.horizontal, UIConstants.Spacing.md)
             } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: UIConstants.Spacing.md) {
-                        ForEach(books, id: \.title) { book in
+                        ForEach(books, id: \.id) { book in
                             bookCard(book)
                         }
                     }
@@ -34,21 +36,15 @@ struct ReadingQueueStrip: View {
         VStack(spacing: UIConstants.Spacing.sm) {
             RoundedRectangle(cornerRadius: UIConstants.CornerRadius.sm)
                 .fill(UIConstants.Colors.surfaceStrong)
-                .frame(width: 80, height: 112)
+                .frame(width: 72, height: 102)
             Text(book.title)
                 .font(UIConstants.Typography.caption)
                 .foregroundStyle(UIConstants.Colors.bodyStrong)
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
-                .frame(width: 88)
+                .frame(width: 84)
         }
-        .frame(width: 112, height: 168)
-        .background(UIConstants.Colors.surfaceCard)
-        .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg))
-        .overlay(
-            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg)
-                .stroke(UIConstants.Colors.hairline, lineWidth: 1)
-        )
-        .shadow(color: .black.opacity(0.03), radius: 10, x: 0, y: 3)
+        .frame(width: 104, height: 152)
+        .compactCard(padding: UIConstants.Spacing.cardPaddingTight)
     }
 }

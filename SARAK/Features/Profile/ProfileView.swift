@@ -12,10 +12,21 @@ struct ProfileView: View {
                     Task { await authViewModel.signOut() }
                 } label: {
                     Text(StringConstants.Auth.signOutButton)
-                        .foregroundStyle(.red)
+                        .frame(maxWidth: .infinity)
                 }
+                .buttonStyle(
+                    PillButtonStyle(
+                        backgroundColor: UIConstants.Colors.surfaceCompact,
+                        pressedBackgroundColor: UIConstants.Colors.surfaceStrong,
+                        foregroundColor: UIConstants.Colors.semanticError,
+                        borderColor: UIConstants.Colors.semanticError.opacity(0.22),
+                        borderWidth: 1
+                    )
+                )
+                .padding(.horizontal, UIConstants.Spacing.lg)
                 Spacer()
             }
+            .background(UIConstants.Colors.canvas)
             .navigationTitle(StringConstants.Tab.profile)
         }
     }

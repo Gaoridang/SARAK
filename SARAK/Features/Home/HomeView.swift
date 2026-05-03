@@ -2,22 +2,48 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = HomeViewModel()
+    @StateObject private var viewModel: HomeViewModel
+    @State private var isShowingAddBook = false
+    @State private var isShowingSetGoal = false
+
+    init(viewModel: HomeViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: UIConstants.Spacing.lg) {
                 topBand
-                CurrentlyReadingCard(book: viewModel.currentBook)
+                CurrentlyReadingCard(
+                    book: viewModel.currentBook,
+                    isSessionActive: viewModel.activeSession != nil,
+                    onAddBook: { isShowingAddBook = true },
+                    onToggleSession: {
+                        Task { await viewModel.toggleCurrentSession() }
+                    }
+                )
                 dailyGoalSection
-                ReadingQueueStrip(books: viewModel.queue)
+                ReadingQueueStrip(books: viewModel.queue) {
+                    isShowingAddBook = true
+                }
             }
             .padding(.top, UIConstants.Spacing.lg)
             .padding(.bottom, UIConstants.Spacing.section)
         }
         .background(UIConstants.Colors.canvas)
         .task {
+            await viewModel.load()
             await viewModel.loadWeather()
+        }
+        .sheet(isPresented: $isShowingAddBook) {
+            AddBookView { title, author in
+                await viewModel.addBook(title: title, author: author)
+            }
+        }
+        .sheet(isPresented: $isShowingSetGoal) {
+            SetGoalView { minutes in
+                await viewModel.setGoal(minutes: minutes)
+            }
         }
     }
 
@@ -46,24 +72,20 @@ struct HomeView: View {
             if viewModel.todayGoalMinutes == 0 {
                 DailyGoalRing(
                     todayReadMinutes: viewModel.todayReadMinutes,
-                    todayGoalMinutes: viewModel.todayGoalMinutes
+                    todayGoalMinutes: viewModel.todayGoalMinutes,
+                    onSetGoal: { isShowingSetGoal = true }
                 )
             } else {
                 HStack {
                     Spacer()
                     DailyGoalRing(
                         todayReadMinutes: viewModel.todayReadMinutes,
-                        todayGoalMinutes: viewModel.todayGoalMinutes
+                        todayGoalMinutes: viewModel.todayGoalMinutes,
+                        onSetGoal: { isShowingSetGoal = true }
                     )
                     Spacer()
                 }
-                .padding(UIConstants.Spacing.lg)
-                .background(UIConstants.Colors.surfaceCard)
-                .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg))
-                .overlay(
-                    RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg)
-                        .stroke(UIConstants.Colors.hairline, lineWidth: 1)
-                )
+                .compactCard()
             }
         }
         .padding(.horizontal, UIConstants.Spacing.md)

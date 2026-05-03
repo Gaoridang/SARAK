@@ -17,7 +17,7 @@ struct EmptyStateCard: View {
     }
 
     var body: some View {
-        VStack(spacing: UIConstants.Spacing.sm) {
+        VStack(spacing: UIConstants.Spacing.cardSpacingCompact) {
             Text(message)
                 .font(UIConstants.Typography.bodySM)
                 .foregroundStyle(UIConstants.Colors.muted)
@@ -25,24 +25,20 @@ struct EmptyStateCard: View {
 
             if let actionTitle {
                 Button(actionTitle, action: action)
-                    .font(UIConstants.Typography.button)
-                    .foregroundStyle(UIConstants.Colors.ink)
-                    .padding(.vertical, UIConstants.Spacing.sm)
-                    .padding(.horizontal, UIConstants.Spacing.lg)
-                    .frame(height: 44)
-                    .background(.clear)
-                    .clipShape(Capsule())
-                    .overlay(Capsule().stroke(UIConstants.Colors.hairlineStrong, lineWidth: 1))
+                    .buttonStyle(
+                        PillButtonStyle(
+                            backgroundColor: .clear,
+                            pressedBackgroundColor: UIConstants.Colors.surfaceStrong,
+                            foregroundColor: UIConstants.Colors.ink,
+                            borderColor: UIConstants.Colors.hairlineStrong,
+                            borderWidth: 1,
+                            minHeight: UIConstants.Size.compactButtonHeight,
+                            horizontalPadding: UIConstants.Spacing.md
+                        )
+                    )
             }
         }
         .frame(maxWidth: .infinity)
-        .padding(UIConstants.Spacing.lg)
-        .background(UIConstants.Colors.surfaceCard)
-        .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg))
-        .overlay(
-            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg)
-                .stroke(UIConstants.Colors.hairline, lineWidth: 1)
-        )
-        .shadow(color: .black.opacity(0.04), radius: 16, x: 0, y: 4)
+        .compactCard()
     }
 }
