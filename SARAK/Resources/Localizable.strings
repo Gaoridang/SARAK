@@ -43,6 +43,10 @@
 
 /* Library */
 "library.empty" = "아직 저장한 책이 없어요";
+"library.add_book" = "책 추가하기";
+"library.status.queued" = "대기";
+"library.status.reading" = "읽는 중";
+"library.status.finished" = "완독";
 
 /* Stats */
 "stats.total_minutes" = "누적 독서 시간";

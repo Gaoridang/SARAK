@@ -52,6 +52,10 @@ enum StringConstants {
 
     enum Library {
         static let empty = String(localized: "library.empty")
+        static let addBook = String(localized: "library.add_book")
+        static let statusQueued = String(localized: "library.status.queued")
+        static let statusReading = String(localized: "library.status.reading")
+        static let statusFinished = String(localized: "library.status.finished")
     }
 
     enum Stats {

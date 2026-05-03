@@ -11,30 +11,11 @@ struct LibraryView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                if viewModel.books.isEmpty {
-                    Text(StringConstants.Library.empty)
-                        .foregroundStyle(UIConstants.Colors.muted)
-                } else {
-                    ForEach(viewModel.books, id: \.id) { book in
-                        VStack(alignment: .leading, spacing: UIConstants.Spacing.xxs) {
-                            Text(book.title)
-                                .font(UIConstants.Typography.bodyStrong)
-                            Text(book.author)
-                                .font(UIConstants.Typography.caption)
-                                .foregroundStyle(UIConstants.Colors.muted)
-                        }
-                    }
-                }
+            ZStack(alignment: .bottomTrailing) {
+                scrollContent
+                fab
             }
-                .navigationTitle(StringConstants.Tab.library)
-                .toolbar {
-                    Button {
-                        isShowingAddBook = true
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                }
+            .navigationTitle(StringConstants.Tab.library)
         }
         .task { await viewModel.load() }
         .sheet(isPresented: $isShowingAddBook) {
@@ -42,5 +23,33 @@ struct LibraryView: View {
                 await viewModel.addBook(title: title, author: author)
             }
         }
+    }
+
+    private var scrollContent: some View {
+        ScrollView {
+            LazyVStack(spacing: UIConstants.Spacing.cardSpacingCompact) {
+                if viewModel.books.isEmpty {
+                    EmptyStateCard(
+                        message: StringConstants.Library.empty,
+                        actionTitle: StringConstants.Library.addBook
+                    ) { isShowingAddBook = true }
+                } else {
+                    ForEach(viewModel.books, id: \.id) { book in
+                        BookRowCard(book: book)
+                    }
+                }
+            }
+            .padding(.horizontal, UIConstants.Spacing.md)
+            .padding(.top, UIConstants.Spacing.sm)
+            .padding(.bottom, UIConstants.Spacing.xxl)
+        }
+    }
+
+    private var fab: some View {
+        Button { isShowingAddBook = true } label: {
+            Image(systemName: "plus")
+        }
+        .buttonStyle(FABButtonStyle())
+        .padding(UIConstants.Spacing.lg)
     }
 }

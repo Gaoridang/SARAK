@@ -66,6 +66,26 @@ struct IconCircleButtonStyle: ButtonStyle {
     }
 }
 
+struct FABButtonStyle: ButtonStyle {
+    var size: CGFloat = 56
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 22, weight: .medium))
+            .foregroundStyle(UIConstants.Colors.onPrimary)
+            .frame(width: size, height: size)
+            .background(
+                configuration.isPressed
+                    ? UIConstants.Colors.primaryActive
+                    : UIConstants.Colors.primary
+            )
+            .clipShape(Circle())
+            .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 3)
+            .scaleEffect(configuration.isPressed ? 0.94 : 1)
+            .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
+    }
+}
+
 extension View {
     func compactCard(
         cornerRadius: CGFloat = UIConstants.CornerRadius.cardCompact,
