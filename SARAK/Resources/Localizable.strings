@@ -48,6 +48,21 @@
 "library.status.reading" = "읽는 중";
 "library.status.finished" = "완독";
 
+/* Book Detail */
+"book_detail.start_reading" = "읽기 시작";
+"book_detail.mark_finished" = "완독 완료";
+"book_detail.read_again" = "다시 읽기";
+"book_detail.edit_info" = "정보 수정";
+"book_detail.delete_book" = "책 삭제";
+"book_detail.delete_confirm_title" = "책을 삭제할까요?";
+"book_detail.delete_confirm_message" = "이 작업은 되돌릴 수 없어요.";
+"book_detail.delete" = "삭제";
+"book_detail.progress_label" = "진행률";
+"book_detail.added_label" = "추가일";
+"book_detail.edit_title" = "책 정보 수정";
+"book_detail.title_label" = "제목";
+"book_detail.author_label" = "저자";
+
 /* Stats */
 "stats.total_minutes" = "누적 독서 시간";
 "stats.weekly_minutes" = "이번 주 독서 시간";

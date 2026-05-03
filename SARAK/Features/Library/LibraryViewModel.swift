@@ -40,6 +40,10 @@ final class LibraryViewModel: ObservableObject {
         isLoading = false
     }
 
+    func makeDetailViewModel(for book: Book) -> BookDetailViewModel {
+        BookDetailViewModel(book: book, bookRepository: bookRepository, syncTrigger: syncTrigger)
+    }
+
     private func triggerSync() {
         guard let syncTrigger else { return }
         Task { await syncTrigger.syncPendingChanges() }

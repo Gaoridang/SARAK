@@ -17,7 +17,7 @@ struct LibraryView: View {
             }
             .navigationTitle(StringConstants.Tab.library)
         }
-        .task { await viewModel.load() }
+        .onAppear { Task { await viewModel.load() } }
         .sheet(isPresented: $isShowingAddBook) {
             AddBookView { title, author in
                 await viewModel.addBook(title: title, author: author)
@@ -35,7 +35,12 @@ struct LibraryView: View {
                     ) { isShowingAddBook = true }
                 } else {
                     ForEach(viewModel.books, id: \.id) { book in
-                        BookRowCard(book: book)
+                        NavigationLink {
+                            BookDetailView(viewModel: viewModel.makeDetailViewModel(for: book))
+                        } label: {
+                            BookRowCard(book: book)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }

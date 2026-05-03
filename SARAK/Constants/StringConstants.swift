@@ -58,6 +58,22 @@ enum StringConstants {
         static let statusFinished = String(localized: "library.status.finished")
     }
 
+    enum BookDetail {
+        static let startReading = String(localized: "book_detail.start_reading")
+        static let markFinished = String(localized: "book_detail.mark_finished")
+        static let readAgain = String(localized: "book_detail.read_again")
+        static let editInfo = String(localized: "book_detail.edit_info")
+        static let deleteBook = String(localized: "book_detail.delete_book")
+        static let deleteConfirmTitle = String(localized: "book_detail.delete_confirm_title")
+        static let deleteConfirmMessage = String(localized: "book_detail.delete_confirm_message")
+        static let delete = String(localized: "book_detail.delete")
+        static let progressLabel = String(localized: "book_detail.progress_label")
+        static let addedLabel = String(localized: "book_detail.added_label")
+        static let editTitle = String(localized: "book_detail.edit_title")
+        static let titleLabel = String(localized: "book_detail.title_label")
+        static let authorLabel = String(localized: "book_detail.author_label")
+    }
+
     enum Stats {
         static let totalMinutes = String(localized: "stats.total_minutes")
         static let weeklyMinutes = String(localized: "stats.weekly_minutes")
