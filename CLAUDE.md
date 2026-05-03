@@ -1,39 +1,52 @@
 # CLAUDE.md
 # Reading Tracker iOS — Agent Index
 
-This file is a concise map, not a manual.
-Read the relevant `.harness/` docs before acting.
+This file is a concise router, not a manual.
+Load only the minimum files needed for the current task.
 
 ## Stack
 
 Swift 6 · SwiftUI · SwiftData · Supabase v2+ · Swift Testing · SPM · Xcode 16 synchronized groups
+
+## Token budget policy (read this first)
+
+- **Do not recursively read `.harness/`**.
+- **Never read historical artifacts by default**: `.harness/logs/archive/`, `.harness/plans/`, `.harness/working-tree/`, `.harness/audits/`, `.harness/tasks/`.
+- Read at most:
+  1. `CLAUDE.md`
+  2. `.harness/constraints.md`
+  3. `.harness/off-limits.md`
+  4. One `quick` guide from the table below
+  5. The paired full guide only when required
+- Only open additional files when the task explicitly requires them.
+- When checking prior work, read only the single most relevant file, not entire folders.
 
 ## Always load first
 
 - `.harness/constraints.md`
 - `.harness/off-limits.md`
 
-## Load as needed
+## Load exactly one quick guide first (then full guide only if needed)
 
 | Task | Read |
 |---|---|
-| Adding features, screens, ViewModels, repositories, services | `.harness/architecture.md` |
-| Naming files, types, variables, constants, errors | `.harness/conventions.md` |
-| Writing or reviewing tests | `.harness/testing.md` |
-| Touching auth, Supabase, remote repositories, DTOs | `.harness/supabase.md` |
-| Touching writes, offline behavior, repositories, sync | `.harness/sync.md` |
-| Styling views, components, or visual treatments | `.harness/design.md` |
+| Adding features, screens, ViewModels, repositories, services | `.harness/quick/architecture.quick.md` → `.harness/architecture.md` |
+| Naming files, types, variables, constants, errors | `.harness/quick/conventions.quick.md` → `.harness/conventions.md` |
+| Writing or reviewing tests | `.harness/quick/testing.quick.md` → `.harness/testing.md` |
+| Touching auth, Supabase, remote repositories, DTOs | `.harness/quick/supabase.quick.md` → `.harness/supabase.md` |
+| Touching writes, offline behavior, repositories, sync | `.harness/quick/sync.quick.md` → `.harness/sync.md` |
+| Styling views, components, or visual treatments | `.harness/quick/design.quick.md` → `.harness/design.md` |
 
 ## Before coding
 
 1. Inspect relevant existing code.
-2. Read required harness docs.
+2. Read only required harness docs from the list above.
 3. Create or switch to a dedicated git branch for this task.
 4. Write a plan to `.harness/plans/PLAN_<FEATURE>_<YYYY-MM-DD>.md`.
-5. Include a task checklist in the plan before implementation so another agent can track and continue the work.
+5. Include a handoff-friendly task checklist in the plan (with explicit status markers, owner, and last-update time) so another agent can track and continue the work.
 6. Keep the checklist updated as task steps are completed.
 7. Snapshot relevant tree/state to `.harness/working-tree/TREE_<FEATURE>_<YYYY-MM-DD>.md`.
-8. Append a decision entry to `.harness/logs/agent.log.md`.
+8. Create or update a per-task log file: `.harness/logs/YYYY-MM-DD/<TASK_SLUG>.md` (use `.harness/logs/TEMPLATE_TASK_LOG.md`).
 
 ## Hard rules
 
