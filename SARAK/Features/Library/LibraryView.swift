@@ -12,10 +12,14 @@ struct LibraryView: View {
     var body: some View {
         NavigationStack {
             ZStack(alignment: .bottomTrailing) {
+                UIConstants.Colors.canvas
+                    .ignoresSafeArea()
                 scrollContent
-                fab
+                if !viewModel.books.isEmpty {
+                    fab
+                }
             }
-            .navigationTitle(StringConstants.Tab.library)
+            .toolbar(.hidden, for: .navigationBar)
         }
         .onAppear { Task { await viewModel.load() } }
         .sheet(isPresented: $isShowingAddBook) {
@@ -27,27 +31,44 @@ struct LibraryView: View {
 
     private var scrollContent: some View {
         ScrollView {
-            LazyVStack(spacing: UIConstants.Spacing.cardSpacingCompact) {
+            VStack(alignment: .leading, spacing: UIConstants.Spacing.lg) {
+                header(showsCount: !viewModel.books.isEmpty)
+
                 if viewModel.books.isEmpty {
-                    EmptyStateCard(
-                        message: StringConstants.Library.empty,
-                        actionTitle: StringConstants.Library.addBook
-                    ) { isShowingAddBook = true }
-                } else {
-                    ForEach(viewModel.books, id: \.id) { book in
-                        NavigationLink {
-                            BookDetailView(viewModel: viewModel.makeDetailViewModel(for: book))
-                        } label: {
-                            BookRowCard(book: book)
-                        }
-                        .buttonStyle(.plain)
+                    LibraryEmptyShelfView {
+                        isShowingAddBook = true
                     }
+                } else {
+                    LazyVStack(spacing: UIConstants.Spacing.cardSpacingCompact) {
+                        ForEach(viewModel.books, id: \.id) { book in
+                            NavigationLink {
+                                BookDetailView(viewModel: viewModel.makeDetailViewModel(for: book))
+                            } label: {
+                                BookRowCard(book: book)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding(.horizontal, UIConstants.Spacing.lg)
                 }
             }
-            .padding(.horizontal, UIConstants.Spacing.md)
-            .padding(.top, UIConstants.Spacing.sm)
-            .padding(.bottom, UIConstants.Spacing.xxl)
+            .padding(.top, UIConstants.Spacing.lg)
+            .padding(.bottom, UIConstants.Spacing.section)
         }
+    }
+
+    private func header(showsCount: Bool) -> some View {
+        VStack(alignment: .leading, spacing: UIConstants.Spacing.xxs) {
+            Text(StringConstants.Tab.library)
+                .font(UIConstants.Typography.displayMD)
+                .foregroundStyle(UIConstants.Colors.ink)
+            if showsCount {
+                Text(String(format: StringConstants.Library.countFormat, viewModel.books.count))
+                    .font(UIConstants.Typography.bodySM)
+                    .foregroundStyle(UIConstants.Colors.muted)
+            }
+        }
+        .padding(.horizontal, UIConstants.Spacing.lg)
     }
 
     private var fab: some View {

@@ -12,19 +12,13 @@ struct HomeView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: UIConstants.Spacing.lgx) {
-                HomeHeaderView(weeklyMinutes: viewModel.weeklyMinutes, weather: viewModel.weather)
-                CurrentlyReadingCard(
-                    book: viewModel.currentBook,
-                    isSessionActive: viewModel.activeSession != nil,
-                    onAddBook: { isShowingAddBook = true },
-                    onToggleSession: {
-                        Task { await viewModel.toggleCurrentSession() }
+            Group {
+                if viewModel.books.isEmpty {
+                    HomeEmptyOnboardingView {
+                        isShowingAddBook = true
                     }
-                )
-                goalsSection
-                ReadingQueueStrip(books: viewModel.queue) {
-                    isShowingAddBook = true
+                } else {
+                    populatedContent
                 }
             }
             .padding(.top, UIConstants.Spacing.lg)
@@ -45,6 +39,24 @@ struct HomeView: View {
         .sheet(isPresented: $isShowingSetGoal) {
             SetGoalView { minutes in
                 await viewModel.setGoal(minutes: minutes)
+            }
+        }
+    }
+
+    private var populatedContent: some View {
+        VStack(alignment: .leading, spacing: UIConstants.Spacing.lgx) {
+            HomeHeaderView(weeklyMinutes: viewModel.weeklyMinutes, weather: viewModel.weather)
+            CurrentlyReadingCard(
+                book: viewModel.currentBook,
+                isSessionActive: viewModel.activeSession != nil,
+                onAddBook: { isShowingAddBook = true },
+                onToggleSession: {
+                    Task { await viewModel.toggleCurrentSession() }
+                }
+            )
+            goalsSection
+            ReadingQueueStrip(books: viewModel.queue) {
+                isShowingAddBook = true
             }
         }
     }

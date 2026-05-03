@@ -5,27 +5,30 @@ struct BookRowCard: View {
     let book: Book
 
     var body: some View {
-        HStack(spacing: UIConstants.Spacing.md) {
+        HStack(spacing: UIConstants.Spacing.smd) {
             coverPlaceholder
             bookInfo
             Spacer(minLength: 0)
             statusBadge
         }
-        .compactCard()
+        .compactCard(cornerRadius: UIConstants.CornerRadius.lg)
     }
 
     private var coverPlaceholder: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.sm, style: .continuous)
-                .fill(UIConstants.Colors.surfaceStrong)
-                .frame(width: 44, height: 60)
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.md, style: .continuous)
+                .fill(coverTone)
+            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.md, style: .continuous)
+                .stroke(UIConstants.Colors.hairlineSoft, lineWidth: 1)
             Image(systemName: "book.closed.fill")
-                .foregroundStyle(UIConstants.Colors.muted)
+                .font(UIConstants.Typography.bodyStrong)
+                .foregroundStyle(book.status == .finished ? UIConstants.Colors.onDark : UIConstants.Colors.bodyStrong)
         }
+        .frame(width: UIConstants.Size.bookRowCoverWidth, height: UIConstants.Size.bookRowCoverHeight)
     }
 
     private var bookInfo: some View {
-        VStack(alignment: .leading, spacing: UIConstants.Spacing.xxs) {
+        VStack(alignment: .leading, spacing: UIConstants.Spacing.sm) {
             Text(book.title)
                 .font(UIConstants.Typography.bodyStrong)
                 .foregroundStyle(UIConstants.Colors.ink)
@@ -34,7 +37,24 @@ struct BookRowCard: View {
                 .font(UIConstants.Typography.caption)
                 .foregroundStyle(UIConstants.Colors.muted)
                 .lineLimit(1)
+            if book.status == .reading {
+                progressBar
+            }
         }
+    }
+
+    private var progressBar: some View {
+        GeometryReader { proxy in
+            ZStack(alignment: .leading) {
+                Capsule()
+                    .fill(UIConstants.Colors.surfaceStrong)
+                Capsule()
+                    .fill(UIConstants.Colors.primary)
+                    .frame(width: proxy.size.width * min(max(book.progress, 0), 1))
+            }
+        }
+        .frame(height: UIConstants.Size.progressTrack)
+        .padding(.top, UIConstants.Spacing.xxs)
     }
 
     private var statusBadge: some View {
@@ -66,9 +86,21 @@ struct BookRowCard: View {
         Text(label)
             .font(UIConstants.Typography.captionUppercase)
             .foregroundStyle(foreground)
+            .frame(minWidth: UIConstants.Size.statusBadgeMinWidth)
             .padding(.horizontal, UIConstants.Spacing.sm)
             .padding(.vertical, UIConstants.Spacing.xxs)
             .background(background)
             .clipShape(Capsule())
+    }
+
+    private var coverTone: Color {
+        switch book.status {
+        case .reading:
+            return UIConstants.Colors.coverWarm
+        case .queued:
+            return UIConstants.Colors.coverCool
+        case .finished:
+            return UIConstants.Colors.coverInk
+        }
     }
 }

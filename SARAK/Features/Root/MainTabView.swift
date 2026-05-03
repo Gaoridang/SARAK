@@ -5,9 +5,10 @@ import SwiftData
 struct MainTabView: View {
     @Environment(\.modelContext) private var modelContext
     @ObservedObject var authViewModel: AuthViewModel
+    @State private var selectedTab = AppTab.initial
 
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             HomeView(
                 viewModel: HomeViewModel(
                     bookRepository: bookRepository,
@@ -19,6 +20,7 @@ struct MainTabView: View {
                 .tabItem {
                     Label(StringConstants.Tab.home, systemImage: "house.fill")
                 }
+                .tag(AppTab.home)
 
             LibraryView(
                 viewModel: LibraryViewModel(
@@ -29,6 +31,7 @@ struct MainTabView: View {
                 .tabItem {
                     Label(StringConstants.Tab.library, systemImage: "books.vertical.fill")
                 }
+                .tag(AppTab.library)
 
             StatsView(
                 viewModel: StatsViewModel(
@@ -39,11 +42,13 @@ struct MainTabView: View {
                 .tabItem {
                     Label(StringConstants.Tab.stats, systemImage: "chart.bar.fill")
                 }
+                .tag(AppTab.stats)
 
             ProfileView(authViewModel: authViewModel)
                 .tabItem {
                     Label(StringConstants.Tab.profile, systemImage: "person.fill")
                 }
+                .tag(AppTab.profile)
         }
         .task {
             await syncCoordinator.syncAfterLogin()
@@ -72,5 +77,21 @@ struct MainTabView: View {
             remoteSessionRepository: RemoteReadingSessionRepository(),
             remoteGoalRepository: RemoteDailyGoalRepository()
         )
+    }
+}
+
+private enum AppTab {
+    case home
+    case library
+    case stats
+    case profile
+
+    static var initial: AppTab {
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["SARAK_SCREENSHOT_INITIAL_TAB"] == "library" {
+            return .library
+        }
+        #endif
+        return .home
     }
 }

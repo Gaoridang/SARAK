@@ -54,6 +54,13 @@ enum UIConstants {
         static let iconButtonHitTarget = hitTarget
         static let avatar: CGFloat = 40
         static let iconCircle: CGFloat = 32
+        static let separatorDot: CGFloat = 3
+        static let bookRowCoverWidth: CGFloat = 48
+        static let bookRowCoverHeight: CGFloat = 68
+        static let statusBadgeMinWidth: CGFloat = 52
+        static let setupStepBadge: CGFloat = 28
+        static let skeletonLineHeight: CGFloat = 8
+        static let scanIcon: CGFloat = 13
         static let progressRing: CGFloat = 48
         static let progressTrack: CGFloat = 4
     }
@@ -86,6 +93,8 @@ enum UIConstants {
         static let onDarkMuted = Color(white: 0.710)
         static let onDarkSoft = Color(white: 0.604)
         static let darkTrack = Color(white: 0.227)
+        static let darkBorder = Color(white: 0.290)
+        static let darkDashedBorder = Color(white: 0.353)
         // Hairlines
         static let hairline = divider
         static let hairlineSoft = border
@@ -134,6 +143,11 @@ enum UIConstants {
         static let lgRadius: CGFloat = 36
         static let lgX: CGFloat = 0
         static let lgY: CGFloat = 18
+
+        static let promptColor = Color.black.opacity(0.25)
+        static let promptRadius: CGFloat = 40
+        static let promptX: CGFloat = 0
+        static let promptY: CGFloat = 18
     }
 
     enum Motion {
