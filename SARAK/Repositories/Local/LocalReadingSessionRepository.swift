@@ -40,6 +40,9 @@ final class LocalReadingSessionRepository: ReadingSessionRepositoryProtocol {
 
     func stopSession(id: UUID) async throws -> ReadingSession {
         let session = try fetchSession(id: id)
+        if session.endedAt != nil {
+            return session
+        }
         let now = Date()
         session.endedAt = now
         session.durationMinutes = max(Int(now.timeIntervalSince(session.startedAt) / 60), 1)
@@ -73,13 +76,12 @@ final class LocalReadingSessionRepository: ReadingSessionRepositoryProtocol {
         guard let payloadString = String(data: payloadData, encoding: .utf8) else {
             throw LocalRepositoryError.encodingFailed
         }
-        modelContext.insert(
-            PendingSyncChange(
-                entityType: .readingSession,
-                entityID: session.id,
-                operation: operation,
-                payload: payloadString
-            )
+        try LocalPendingSyncChangeCoalescer.enqueue(
+            entityType: .readingSession,
+            entityID: session.id,
+            operation: operation,
+            payload: payloadString,
+            in: modelContext
         )
     }
 }

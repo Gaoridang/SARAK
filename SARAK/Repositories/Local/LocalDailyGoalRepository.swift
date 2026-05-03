@@ -49,8 +49,12 @@ final class LocalDailyGoalRepository: DailyGoalRepositoryProtocol {
         guard let payloadString = String(data: payloadData, encoding: .utf8) else {
             throw LocalRepositoryError.encodingFailed
         }
-        modelContext.insert(
-            PendingSyncChange(entityType: .dailyGoal, entityID: goal.id, operation: operation, payload: payloadString)
+        try LocalPendingSyncChangeCoalescer.enqueue(
+            entityType: .dailyGoal,
+            entityID: goal.id,
+            operation: operation,
+            payload: payloadString,
+            in: modelContext
         )
     }
 }

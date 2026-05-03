@@ -68,8 +68,12 @@ final class LocalBookRepository: BookRepositoryProtocol {
         guard let payloadString = String(data: payloadData, encoding: .utf8) else {
             throw LocalRepositoryError.encodingFailed
         }
-        modelContext.insert(
-            PendingSyncChange(entityType: .book, entityID: book.id, operation: operation, payload: payloadString)
+        try LocalPendingSyncChangeCoalescer.enqueue(
+            entityType: .book,
+            entityID: book.id,
+            operation: operation,
+            payload: payloadString,
+            in: modelContext
         )
     }
 }
