@@ -339,3 +339,19 @@
 - **Tests written:** No — documentation-only harness update.
 - **Build/lint/test result:** Not run — documentation-only change.
 - **Outcome:** Completed.
+
+---
+
+### [2026-05-03] Task: MVP Reading Interactions + Supabase Schema
+- **Plan file:** `.harness/plans/PLAN_MVP_READING_INTERACTIONS_SUPABASE_2026-05-03.md`
+- **Working tree:** `.harness/working-tree/TREE_MVP_READING_INTERACTIONS_SUPABASE_2026-05-03.md`
+- **Branch:** `feat/mvp-reading-interactions-supabase`
+- **Harness docs read:** CLAUDE.md, constraints.md, off-limits.md, architecture.md, conventions.md, testing.md, supabase.md, sync.md
+- **Decision:** Implement the MVP reading data slice local-first with generated Supabase SQL/RLS. Preserve pre-existing uncommitted compact-design changes. Stop for explicit approval before editing off-limits `SARAK/Services/SyncCoordinator.swift`.
+- **Constraints applied:** Local SwiftData writes are the source of truth, pending sync changes are durable, Supabase imports remain limited to allowed files, and `SyncCoordinator.swift` was edited only after explicit user approval.
+- **Files created:** SwiftData models, repository protocols, local/remote repositories, Add Book and Set Goal views, Library/Stats ViewModels, tests, `.harness/supabase/SCHEMA_MVP_READING_2026-05-03.sql`, plan/tree records.
+- **Files modified:** Home/Library/Stats/Root app wiring, localized strings, `SARAKApp.swift`, `SyncCoordinator.swift`, and existing compact-design files already dirty at branch creation.
+- **Tests written:** Home ViewModel, local reading repositories, Stats ViewModel.
+- **SwiftLint result:** Passed with 0 violations.
+- **Build/test result:** Passed with `xcodebuild -quiet -project SARAK.xcodeproj -scheme SARAK -destination generic/platform=iOS build` and `xcodebuild -quiet -project SARAK.xcodeproj -scheme SARAK -destination 'platform=iOS Simulator,name=iPhone 17' test`.
+- **Outcome:** Completed.

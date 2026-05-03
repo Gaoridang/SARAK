@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct SARAKApp: App {
@@ -16,5 +17,11 @@ struct SARAKApp: App {
                     SupabaseService.handle(url)
                 }
         }
+        .modelContainer(for: [
+            Book.self,
+            ReadingSession.self,
+            DailyGoal.self,
+            PendingSyncChange.self
+        ])
     }
 }

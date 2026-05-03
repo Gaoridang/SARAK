@@ -22,14 +22,16 @@ struct AuthView: View {
                     Task { await viewModel.signInWithKakao() }
                 } label: {
                     Text(StringConstants.Auth.kakaoLoginButton)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(UIConstants.Colors.kakaoLabel)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, UIConstants.Spacing.md)
                 }
-                .background(UIConstants.Colors.kakaoYellow)
-                .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.md))
-                .padding(.horizontal, UIConstants.Spacing.xl)
+                .buttonStyle(
+                    PillButtonStyle(
+                        backgroundColor: UIConstants.Colors.kakaoYellow,
+                        pressedBackgroundColor: UIConstants.Colors.kakaoYellow.opacity(0.82),
+                        foregroundColor: UIConstants.Colors.kakaoLabel
+                    )
+                )
+                .padding(.horizontal, UIConstants.Spacing.lg)
             }
 
             if let message = viewModel.errorMessage {
@@ -42,5 +44,6 @@ struct AuthView: View {
 
             Spacer()
         }
+        .background(UIConstants.Colors.canvas)
     }
 }

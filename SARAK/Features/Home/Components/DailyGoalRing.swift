@@ -4,6 +4,7 @@ import SwiftUI
 struct DailyGoalRing: View {
     let todayReadMinutes: Int
     let todayGoalMinutes: Int
+    let onSetGoal: () -> Void
 
     private var progress: Double {
         guard todayGoalMinutes > 0 else { return 0 }
@@ -51,7 +52,8 @@ struct DailyGoalRing: View {
     private var emptyState: some View {
         EmptyStateCard(
             message: StringConstants.Home.noGoalSet,
-            actionTitle: StringConstants.Home.setGoal
+            actionTitle: StringConstants.Home.setGoal,
+            action: onSetGoal
         )
     }
 }

@@ -12,6 +12,10 @@ enum UIConstants {
         static let xl: CGFloat = 32
         static let xxl: CGFloat = 48
         static let section: CGFloat = 64
+        static let cardPaddingCompact: CGFloat = 16
+        static let cardPaddingTight: CGFloat = 12
+        static let cardSpacingCompact: CGFloat = 12
+        static let buttonHorizontal: CGFloat = 20
     }
     enum CornerRadius {
         static let xs: CGFloat = 4
@@ -19,6 +23,12 @@ enum UIConstants {
         static let md: CGFloat = 12
         static let lg: CGFloat = 16
         static let xl: CGFloat = 24
+        static let cardCompact: CGFloat = 18
+    }
+    enum Size {
+        static let buttonHeight: CGFloat = 46
+        static let compactButtonHeight: CGFloat = 40
+        static let iconButton: CGFloat = 44
     }
     enum Colors {
         // Third-party brand — Kakao guidelines mandate these exact values. Do not replace.
@@ -28,6 +38,7 @@ enum UIConstants {
         static let canvas = Color(red: 0.961, green: 0.961, blue: 0.961)
         static let canvasSoft = Color(red: 0.980, green: 0.980, blue: 0.980)
         static let surfaceCard = Color.white
+        static let surfaceCompact = Color(red: 0.973, green: 0.973, blue: 0.973)
         static let surfaceStrong = Color(red: 0.941, green: 0.937, blue: 0.929)
         // Primary action
         static let primary = Color(red: 0.161, green: 0.145, blue: 0.137)

@@ -6,6 +6,10 @@
 "auth.kakao_login_button" = "카카오로 로그인";
 "auth.sign_out_button" = "로그아웃";
 
+/* Common */
+"common.cancel" = "취소";
+"common.save" = "저장";
+
 /* Tabs */
 "tab.home" = "홈";
 "tab.library" = "서재";
@@ -17,6 +21,7 @@
 "home.weekly_minutes_format" = "이번 주 %d분 읽었어요";
 "home.progress_format" = "%d%% 읽음";
 "home.start_session" = "독서 시작";
+"home.stop_session" = "독서 종료";
 "home.no_current_book" = "아직 읽고 있는 책이 없어요";
 "home.add_book" = "책 추가하기";
 "home.goal_progress_format" = "%d / %d분";
@@ -26,6 +31,30 @@
 "home.reading_queue" = "읽을 책";
 "home.empty_queue" = "아직 읽을 책이 없어요";
 "home.weather.unavailable" = "--";
+
+/* Book */
+"book.add_title" = "책 추가";
+"book.title_placeholder" = "책 제목";
+"book.author_placeholder" = "저자";
+
+/* Goal */
+"goal.set_title" = "목표 설정";
+"goal.minutes_format" = "%d분";
+
+/* Library */
+"library.empty" = "아직 저장한 책이 없어요";
+
+/* Stats */
+"stats.total_minutes" = "누적 독서 시간";
+"stats.weekly_minutes" = "이번 주 독서 시간";
+"stats.sessions" = "독서 세션";
+"stats.finished_books" = "완독한 책";
+
+/* Errors */
+"error.item_not_found" = "항목을 찾을 수 없어요";
+"error.invalid_input" = "입력값을 확인해주세요";
+"error.sync_payload_failed" = "동기화 준비에 실패했어요";
+"error.signed_out" = "로그인이 필요해요";
 
 /* Weather mood */
 "home.mood.sunny" = "맑은 날, 카페에서 읽어보세요 ☀️";

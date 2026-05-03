@@ -1,4 +1,5 @@
 // HomeViewModelTests.swift — SARAK
+import SwiftData
 import Testing
 @testable import SARAK
 
@@ -6,34 +7,46 @@ import Testing
 @MainActor
 struct HomeViewModelTests {
 
-    @Test("first-login weeklyMinutes is zero")
-    func weeklyMinutesStartsAtZero() {
-        let viewModel = HomeViewModel()
+    @Test("first-login values are empty before local data exists")
+    func firstLoginStartsEmpty() async throws {
+        let viewModel = try makeViewModel()
+        await viewModel.load()
         #expect(viewModel.weeklyMinutes == 0)
-    }
-
-    @Test("first-login currentBook is nil")
-    func currentBookStartsEmpty() {
-        let viewModel = HomeViewModel()
         #expect(viewModel.currentBook == nil)
-    }
-
-    @Test("first-login goal and read minutes are zero")
-    func goalAndReadMinutesStartAtZero() {
-        let viewModel = HomeViewModel()
         #expect(viewModel.todayGoalMinutes == 0)
         #expect(viewModel.todayReadMinutes == 0)
-    }
-
-    @Test("first-login queue is empty")
-    func queueStartsEmpty() {
-        let viewModel = HomeViewModel()
         #expect(viewModel.queue.isEmpty)
     }
 
+    @Test("addBook populates current book")
+    func addBookPopulatesCurrentBook() async throws {
+        let viewModel = try makeViewModel()
+        await viewModel.addBook(title: "Dune", author: "Frank Herbert")
+        #expect(viewModel.currentBook?.title == "Dune")
+        #expect(viewModel.errorMessage == nil)
+    }
+
+    @Test("setGoal updates today's goal minutes")
+    func setGoalUpdatesTodayGoal() async throws {
+        let viewModel = try makeViewModel()
+        await viewModel.setGoal(minutes: 30)
+        #expect(viewModel.todayGoalMinutes == 30)
+    }
+
+    @Test("toggleCurrentSession starts and stops session")
+    func toggleCurrentSessionStartsAndStops() async throws {
+        let viewModel = try makeViewModel()
+        await viewModel.addBook(title: "Dune", author: "Frank Herbert")
+        await viewModel.toggleCurrentSession()
+        #expect(viewModel.activeSession != nil)
+        await viewModel.toggleCurrentSession()
+        #expect(viewModel.activeSession == nil)
+        #expect(viewModel.todayReadMinutes >= 1)
+    }
+
     @Test("loadWeather sets weather to non-nil with stub service")
-    func loadWeatherPopulatesWeather() async {
-        let viewModel = HomeViewModel(weatherService: StubWeatherService())
+    func loadWeatherPopulatesWeather() async throws {
+        let viewModel = try makeViewModel(weatherService: StubWeatherService())
         await viewModel.loadWeather()
         #expect(viewModel.weather != nil)
         #expect(viewModel.isLoading == false)
@@ -41,23 +54,26 @@ struct HomeViewModelTests {
     }
 
     @Test("loadWeather sets errorMessage on service failure")
-    func loadWeatherSetsErrorOnFailure() async {
-        let viewModel = HomeViewModel(weatherService: FailingWeatherService())
+    func loadWeatherSetsErrorOnFailure() async throws {
+        let viewModel = try makeViewModel(weatherService: FailingWeatherService())
         await viewModel.loadWeather()
         #expect(viewModel.weather == nil)
         #expect(viewModel.errorMessage != nil)
         #expect(viewModel.isLoading == false)
     }
 
-    @Test("isLoading resets to false after loadWeather completes")
-    func isLoadingResetsAfterLoad() async {
-        let viewModel = HomeViewModel(weatherService: StubWeatherService())
-        await viewModel.loadWeather()
-        #expect(viewModel.isLoading == false)
+    private func makeViewModel(
+        weatherService: (any WeatherServiceProtocol)? = nil
+    ) throws -> HomeViewModel {
+        let context = try TestModelContainerFactory.makeContext()
+        return HomeViewModel(
+            bookRepository: LocalBookRepository(modelContext: context),
+            sessionRepository: LocalReadingSessionRepository(modelContext: context),
+            goalRepository: LocalDailyGoalRepository(modelContext: context),
+            weatherService: weatherService ?? StubWeatherService()
+        )
     }
 }
-
-// MARK: - Fakes
 
 private struct FailingWeatherService: WeatherServiceProtocol {
     func currentWeather() async throws -> WeatherSummary {

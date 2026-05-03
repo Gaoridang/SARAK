@@ -3,6 +3,9 @@ import SwiftUI
 
 struct CurrentlyReadingCard: View {
     let book: HomeBookDisplayModel?
+    let isSessionActive: Bool
+    let onAddBook: () -> Void
+    let onToggleSession: () -> Void
 
     var body: some View {
         if let book {
@@ -13,10 +16,10 @@ struct CurrentlyReadingCard: View {
     }
 
     private func bookCard(_ book: HomeBookDisplayModel) -> some View {
-        HStack(alignment: .center, spacing: UIConstants.Spacing.md) {
+        HStack(alignment: .center, spacing: UIConstants.Spacing.cardSpacingCompact) {
             RoundedRectangle(cornerRadius: UIConstants.CornerRadius.sm)
                 .fill(UIConstants.Colors.surfaceStrong)
-                .frame(width: 88, height: 124)
+                .frame(width: 78, height: 110)
 
             VStack(alignment: .leading, spacing: UIConstants.Spacing.sm) {
                 Text(book.title)
@@ -29,34 +32,29 @@ struct CurrentlyReadingCard: View {
                 Text(String(format: StringConstants.Home.progressFormat, Int(book.progress * 100)))
                     .font(UIConstants.Typography.caption)
                     .foregroundStyle(UIConstants.Colors.muted)
-                Button(StringConstants.Home.startSession) {}
-                    .font(UIConstants.Typography.button)
-                    .foregroundStyle(UIConstants.Colors.onPrimary)
-                    .padding(.vertical, UIConstants.Spacing.sm)
-                    .padding(.horizontal, UIConstants.Spacing.lg)
-                    .frame(height: 44)
-                    .background(UIConstants.Colors.primary)
-                    .clipShape(Capsule())
-                    .padding(.top, UIConstants.Spacing.sm)
+                Button(isSessionActive ? StringConstants.Home.stopSession : StringConstants.Home.startSession) {
+                    onToggleSession()
+                }
+                    .buttonStyle(
+                        PillButtonStyle(
+                            minHeight: UIConstants.Size.compactButtonHeight,
+                            horizontalPadding: UIConstants.Spacing.md
+                        )
+                    )
+                    .padding(.top, UIConstants.Spacing.xxs)
             }
 
             Spacer()
         }
-        .padding(UIConstants.Spacing.lg)
-        .background(UIConstants.Colors.surfaceCard)
-        .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg))
-        .overlay(
-            RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg)
-                .stroke(UIConstants.Colors.hairline, lineWidth: 1)
-        )
-        .shadow(color: .black.opacity(0.04), radius: 16, x: 0, y: 4)
+        .compactCard()
         .padding(.horizontal, UIConstants.Spacing.md)
     }
 
     private var emptyState: some View {
         EmptyStateCard(
             message: StringConstants.Home.noCurrentBook,
-            actionTitle: StringConstants.Home.addBook
+            actionTitle: StringConstants.Home.addBook,
+            action: onAddBook
         )
             .padding(.horizontal, UIConstants.Spacing.md)
     }
