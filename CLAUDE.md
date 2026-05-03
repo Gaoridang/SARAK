@@ -1,8 +1,18 @@
 # CLAUDE.md
-# Reading Tracker iOS — Agent Index
+# Reading Tracker iOS — Agent Entry Point
 
-This file is a concise map, not a manual.
-Read the relevant `.harness/` docs before acting.
+This file is a **routing index**.
+Do **not** read the whole `.harness/` tree by default.
+
+## Token budget (important)
+
+- Startup read budget: **max 2 files** from `.harness/`.
+- Default startup set:
+  1. `.harness/constraints.md`
+  2. `.harness/off-limits.md`
+- Then read **only one additional doc** that matches the current task.
+- Never preload `.harness/plans/`, `.harness/working-tree/`, `.harness/audits/`, or `.harness/logs/` unless explicitly required for the task.
+- If context exceeds budget, stop and summarize before loading more.
 
 ## Stack
 
@@ -13,7 +23,7 @@ Swift 6 · SwiftUI · SwiftData · Supabase v2+ · Swift Testing · SPM · Xcode
 - `.harness/constraints.md`
 - `.harness/off-limits.md`
 
-## Load as needed
+## Load exactly one as needed
 
 | Task | Read |
 |---|---|
@@ -24,16 +34,27 @@ Swift 6 · SwiftUI · SwiftData · Supabase v2+ · Swift Testing · SPM · Xcode
 | Touching writes, offline behavior, repositories, sync | `.harness/sync.md` |
 | Styling views, components, or visual treatments | `.harness/design.md` |
 
+## Large artifact policy
+
+- Historical artifacts are reference-only.
+- Read these folders only when directly relevant to the current task:
+  - `.harness/plans/`
+  - `.harness/working-tree/`
+  - `.harness/audits/`
+  - `.harness/logs/`
+- When creating new plan/tree files, keep them short and task-scoped.
+- Keep `agent.log.md` to recent entries; archive older entries to dated files when it grows large.
+
 ## Before coding
 
 1. Inspect relevant existing code.
-2. Read required harness docs.
+2. Read required harness docs using the budget rules above.
 3. Create or switch to a dedicated git branch for this task.
 4. Write a plan to `.harness/plans/PLAN_<FEATURE>_<YYYY-MM-DD>.md`.
 5. Include a task checklist in the plan before implementation so another agent can track and continue the work.
 6. Keep the checklist updated as task steps are completed.
-7. Snapshot relevant tree/state to `.harness/working-tree/TREE_<FEATURE>_<YYYY-MM-DD>.md`.
-8. Append a decision entry to `.harness/logs/agent.log.md`.
+7. Snapshot relevant tree/state to `.harness/working-tree/TREE_<FEATURE>_<YYYY-MM-DD>.md` only if needed.
+8. Append a concise decision entry to `.harness/logs/agent.log.md`.
 
 ## Hard rules
 
