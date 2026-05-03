@@ -18,6 +18,21 @@
 
 /* Home */
 "home.greeting" = "안녕하세요 👋";
+"home.empty.welcome" = "독서 트래커에 오신 걸 환영해요";
+"home.empty.day_format" = "%@ · 1일차";
+"home.empty.step_label" = "STEP 01 · 시작하기";
+"home.empty.hero_title" = "첫 책을 골라 시작하세요";
+"home.empty.hero_body" = "시간과 페이지를 기록하고, 시작한 책을 끝까지 읽어보세요.";
+"home.empty.setup_progress" = "설정 단계 0 / 3";
+"home.empty.add_book_cta" = "책 추가하기 →";
+"home.empty.setup_title" = "트래커 설정하기";
+"home.empty.setup_count" = "3단계";
+"home.empty.step_one_title" = "첫 책 추가하기";
+"home.empty.step_one_subtitle" = "제목, ISBN, 스캔으로 찾아보세요";
+"home.empty.step_two_title" = "하루 목표 설정하기";
+"home.empty.step_two_subtitle" = "20분이면 좋은 시작이에요";
+"home.empty.step_three_title" = "첫 독서 세션 시작하기";
+"home.empty.step_three_subtitle" = "타이머가 습관을 이어줘요";
 "home.weekly_minutes_format" = "이번 주 %d분 읽었어요";
 "home.progress_format" = "%d%% 읽음";
 "home.start_session" = "독서 시작";
@@ -52,6 +67,14 @@
 /* Library */
 "library.empty" = "아직 저장한 책이 없어요";
 "library.add_book" = "책 추가하기";
+"library.count_format" = "%d권의 책";
+"library.tab.all" = "전체";
+"library.tab.reading" = "읽는 중";
+"library.tab.finished" = "완독";
+"library.tab.want_to_read" = "읽고 싶은 책";
+"library.empty.title" = "서재가 비어 있어요";
+"library.empty.body" = "책을 추가하고 나만의 독서 기록을 시작하세요.";
+"library.scan_isbn" = "ISBN 스캔";
 "library.status.queued" = "대기";
 "library.status.reading" = "읽는 중";
 "library.status.finished" = "완독";
