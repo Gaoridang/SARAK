@@ -8,13 +8,18 @@ struct CompactCardModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .padding(padding)
-            .background(UIConstants.Colors.surfaceCompact)
+            .background(UIConstants.Colors.surfaceCard)
             .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
             .overlay {
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .stroke(UIConstants.Colors.hairlineSoft, lineWidth: 1)
+                    .stroke(UIConstants.Colors.hairline, lineWidth: 1)
             }
-            .shadow(color: .black.opacity(0.025), radius: 8, x: 0, y: 3)
+            .shadow(
+                color: UIConstants.Shadow.smColor,
+                radius: UIConstants.Shadow.smRadius,
+                x: UIConstants.Shadow.smX,
+                y: UIConstants.Shadow.smY
+            )
     }
 }
 
@@ -34,12 +39,13 @@ struct PillButtonStyle: ButtonStyle {
             .frame(minHeight: minHeight)
             .padding(.horizontal, horizontalPadding)
             .background(configuration.isPressed ? pressedBackgroundColor : backgroundColor)
-            .clipShape(Capsule())
+            .clipShape(RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg, style: .continuous))
             .overlay {
-                Capsule().stroke(borderColor, lineWidth: borderWidth)
+                RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg, style: .continuous)
+                    .stroke(borderColor, lineWidth: borderWidth)
             }
             .scaleEffect(configuration.isPressed ? 0.98 : 1)
-            .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
+            .animation(.easeOut(duration: UIConstants.Motion.fast), value: configuration.isPressed)
     }
 }
 
@@ -51,18 +57,14 @@ struct IconCircleButtonStyle: ButtonStyle {
             .font(UIConstants.Typography.button)
             .foregroundStyle(foregroundColor)
             .frame(width: UIConstants.Size.iconButton, height: UIConstants.Size.iconButton)
-            .background(
-                configuration.isPressed
-                    ? UIConstants.Colors.surfaceStrong
-                    : UIConstants.Colors.canvasSoft
-            )
+            .background(configuration.isPressed ? UIConstants.Colors.surfaceStrong : UIConstants.Colors.surface)
             .clipShape(Circle())
             .overlay {
-                Circle().stroke(UIConstants.Colors.hairlineSoft, lineWidth: 1)
+                Circle().stroke(UIConstants.Colors.hairline, lineWidth: 1)
             }
-            .shadow(color: .black.opacity(0.02), radius: 6, x: 0, y: 2)
+            .frame(width: UIConstants.Size.iconButtonHitTarget, height: UIConstants.Size.iconButtonHitTarget)
             .scaleEffect(configuration.isPressed ? 0.96 : 1)
-            .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
+            .animation(.easeOut(duration: UIConstants.Motion.fast), value: configuration.isPressed)
     }
 }
 
@@ -71,7 +73,7 @@ struct FABButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 22, weight: .medium))
+            .font(.system(size: 22, weight: .semibold))
             .foregroundStyle(UIConstants.Colors.onPrimary)
             .frame(width: size, height: size)
             .background(
@@ -80,9 +82,9 @@ struct FABButtonStyle: ButtonStyle {
                     : UIConstants.Colors.primary
             )
             .clipShape(Circle())
-            .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 3)
+            .shadow(color: UIConstants.Shadow.mdColor, radius: 8, x: 0, y: 3)
             .scaleEffect(configuration.isPressed ? 0.94 : 1)
-            .animation(.easeOut(duration: 0.12), value: configuration.isPressed)
+            .animation(.easeOut(duration: UIConstants.Motion.fast), value: configuration.isPressed)
     }
 }
 

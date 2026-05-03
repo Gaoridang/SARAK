@@ -7,6 +7,7 @@ struct BookDetailView: View {
     @State private var isShowingDeleteConfirm = false
     @State private var isShowingEditBook = false
     @State private var localProgress: Double = 0
+    @State private var localCurrentPage: Int = 0
 
     init(viewModel: BookDetailViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -15,17 +16,24 @@ struct BookDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: UIConstants.Spacing.md) {
-                heroCover
-                infoSection
-                metadataSection
+                headerSection
+                BookDetailMetadataSection(
+                    viewModel: viewModel,
+                    localProgress: $localProgress,
+                    localCurrentPage: $localCurrentPage
+                )
                 actionsSection
             }
             .padding(.horizontal, UIConstants.Spacing.md)
             .padding(.bottom, UIConstants.Spacing.xxl)
         }
+        .background(UIConstants.Colors.canvas)
         .navigationTitle(viewModel.book.title)
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear { localProgress = viewModel.book.progress }
+        .onAppear {
+            localProgress = viewModel.book.progress
+            localCurrentPage = viewModel.book.currentPage ?? 0
+        }
         .onChange(of: viewModel.isDeleted) { _, deleted in
             if deleted { dismiss() }
         }
@@ -40,27 +48,30 @@ struct BookDetailView: View {
         .sheet(isPresented: $isShowingEditBook) {
             EditBookView(
                 currentTitle: viewModel.book.title,
-                currentAuthor: viewModel.book.author
-            ) { title, author in
-                await viewModel.updateBookInfo(title: title, author: author)
+                currentAuthor: viewModel.book.author,
+                currentTotalPages: viewModel.book.totalPages,
+                currentGenre: viewModel.book.genre,
+                currentNotes: viewModel.book.notes
+            ) { title, author, totalPages, genre, notes in
+                await viewModel.updateBookInfo(
+                    title: title, author: author,
+                    totalPages: totalPages, genre: genre, notes: notes
+                )
             }
         }
     }
 
-    private var heroCover: some View {
-        ZStack {
+    private var headerSection: some View {
+        HStack(alignment: .top, spacing: UIConstants.Spacing.md) {
             RoundedRectangle(cornerRadius: UIConstants.CornerRadius.lg, style: .continuous)
                 .fill(UIConstants.Colors.surfaceStrong)
-                .frame(maxWidth: .infinity)
-                .frame(height: 180)
-            Image(systemName: "book.closed.fill")
-                .font(.system(size: 48))
-                .foregroundStyle(UIConstants.Colors.muted)
-        }
-    }
+                .overlay(
+                    Image(systemName: "book.closed.fill")
+                        .font(.system(size: 28))
+                        .foregroundStyle(UIConstants.Colors.muted)
+                )
+                .frame(width: 110, height: 154)
 
-    private var infoSection: some View {
-        HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: UIConstants.Spacing.xxs) {
                 Text(viewModel.book.title)
                     .font(UIConstants.Typography.displayMD)
@@ -68,9 +79,10 @@ struct BookDetailView: View {
                 Text(viewModel.book.author)
                     .font(UIConstants.Typography.bodyMD)
                     .foregroundStyle(UIConstants.Colors.muted)
+                Spacer(minLength: UIConstants.Spacing.sm)
+                statusBadge
             }
-            Spacer(minLength: UIConstants.Spacing.sm)
-            statusBadge
+            Spacer()
         }
         .compactCard()
     }
@@ -83,7 +95,7 @@ struct BookDetailView: View {
                       fg: UIConstants.Colors.muted, bg: UIConstants.Colors.surfaceCompact)
             case .reading:
                 badge("\(Int(viewModel.book.progress * 100))%",
-                      fg: UIConstants.Colors.primary, bg: UIConstants.Colors.surfaceStrong)
+                      fg: UIConstants.Colors.onPrimary, bg: UIConstants.Colors.primary)
             case .finished:
                 badge(StringConstants.Library.statusFinished,
                       fg: UIConstants.Colors.semanticSuccess, bg: UIConstants.Colors.surfaceCompact)
@@ -99,36 +111,6 @@ struct BookDetailView: View {
             .padding(.vertical, UIConstants.Spacing.xxs)
             .background(bg)
             .clipShape(Capsule())
-    }
-
-    private var metadataSection: some View {
-        VStack(spacing: UIConstants.Spacing.sm) {
-            if viewModel.book.status == .reading {
-                HStack {
-                    Text(StringConstants.BookDetail.progressLabel)
-                        .font(UIConstants.Typography.bodySM)
-                        .foregroundStyle(UIConstants.Colors.muted)
-                    Slider(value: $localProgress, in: 0...1) { isEditing in
-                        if !isEditing { Task { await viewModel.updateProgress(localProgress) } }
-                    }
-                    .tint(UIConstants.Colors.primary)
-                    Text("\(Int(localProgress * 100))%")
-                        .font(UIConstants.Typography.captionUppercase)
-                        .foregroundStyle(UIConstants.Colors.primary)
-                        .frame(width: 36, alignment: .trailing)
-                }
-            }
-            HStack {
-                Text(StringConstants.BookDetail.addedLabel)
-                    .font(UIConstants.Typography.bodySM)
-                    .foregroundStyle(UIConstants.Colors.muted)
-                Spacer()
-                Text(viewModel.book.createdAt.formatted(date: .abbreviated, time: .omitted))
-                    .font(UIConstants.Typography.bodySM)
-                    .foregroundStyle(UIConstants.Colors.ink)
-            }
-        }
-        .compactCard()
     }
 
     private var actionsSection: some View {

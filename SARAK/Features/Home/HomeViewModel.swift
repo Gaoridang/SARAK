@@ -73,9 +73,14 @@ final class HomeViewModel: ObservableObject {
         }
     }
 
-    func addBook(title: String, author: String) async {
+    func addBook(title: String, author: String, totalPages: Int? = nil, genre: String? = nil) async {
         await performAndReload {
-            _ = try await bookRepository.addBook(title: title, author: author)
+            let book = try await self.bookRepository.addBook(title: title, author: author)
+            if totalPages != nil || genre != nil {
+                book.totalPages = totalPages
+                book.genre = genre.flatMap { $0.isEmpty ? nil : $0 }
+                try await self.bookRepository.updateBook(book)
+            }
         }
     }
 
@@ -130,6 +135,14 @@ final class HomeViewModel: ObservableObject {
     }
 
     private func displayModel(for book: Book) -> HomeBookDisplayModel {
-        HomeBookDisplayModel(id: book.id, title: book.title, author: book.author, progress: book.progress)
+        HomeBookDisplayModel(
+            id: book.id,
+            title: book.title,
+            author: book.author,
+            progress: book.progress,
+            currentPage: book.currentPage,
+            totalPages: book.totalPages,
+            status: book.status
+        )
     }
 }

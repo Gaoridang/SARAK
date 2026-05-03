@@ -8,17 +8,34 @@ struct BookRemoteDTO: Codable {
     let author: String
     let status: String
     let progress: Double
+    let totalPages: Int?
+    let currentPage: Int?
+    let genre: String?
+    let notes: String?
     let createdAt: Date
     let updatedAt: Date
     let deletedAt: Date?
 
+    // Default nil for optional fields keeps existing callers (e.g. SyncCoordinator) compatible.
+    init(
+        id: UUID, userID: UUID, title: String, author: String,
+        status: String, progress: Double,
+        totalPages: Int? = nil, currentPage: Int? = nil,
+        genre: String? = nil, notes: String? = nil,
+        createdAt: Date, updatedAt: Date, deletedAt: Date?
+    ) {
+        self.id = id; self.userID = userID; self.title = title; self.author = author
+        self.status = status; self.progress = progress
+        self.totalPages = totalPages; self.currentPage = currentPage
+        self.genre = genre; self.notes = notes
+        self.createdAt = createdAt; self.updatedAt = updatedAt; self.deletedAt = deletedAt
+    }
+
     enum CodingKeys: String, CodingKey {
-        case id
+        case id, title, author, status, progress, genre, notes
         case userID = "user_id"
-        case title
-        case author
-        case status
-        case progress
+        case totalPages = "total_pages"
+        case currentPage = "current_page"
         case createdAt = "created_at"
         case updatedAt = "updated_at"
         case deletedAt = "deleted_at"
@@ -31,6 +48,10 @@ struct BookRemoteDTO: Codable {
             author: author,
             status: BookStatus(rawValue: status) ?? .queued,
             progress: progress,
+            totalPages: totalPages,
+            currentPage: currentPage,
+            genre: genre,
+            notes: notes,
             createdAt: createdAt,
             updatedAt: updatedAt,
             deletedAt: deletedAt

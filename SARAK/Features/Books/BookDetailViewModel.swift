@@ -43,9 +43,35 @@ final class BookDetailViewModel: ObservableObject {
         }
     }
 
-    func updateBookInfo(title: String, author: String) async {
+    func updateCurrentPage(_ page: Int) async {
+        book.currentPage = max(0, page)
+        if let total = book.totalPages, total > 0 {
+            book.progress = min(Double(page) / Double(total), 1.0)
+        }
+        do {
+            try await bookRepository.updateBook(book)
+            objectWillChange.send()
+            triggerSync()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+
+    func updateBookInfo(
+        title: String,
+        author: String,
+        totalPages: Int? = nil,
+        genre: String? = nil,
+        notes: String? = nil
+    ) async {
         book.title = title
         book.author = author
+        book.totalPages = totalPages
+        book.genre = genre.flatMap { $0.trimmingCharacters(in: .whitespaces).isEmpty ? nil : $0 }
+        book.notes = notes.flatMap { $0.trimmingCharacters(in: .whitespaces).isEmpty ? nil : $0 }
+        if let total = totalPages, total > 0, let page = book.currentPage {
+            book.progress = min(Double(page) / Double(total), 1.0)
+        }
         do {
             try await bookRepository.updateBook(book)
             objectWillChange.send()

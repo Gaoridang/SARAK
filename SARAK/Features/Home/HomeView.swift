@@ -12,8 +12,8 @@ struct HomeView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: UIConstants.Spacing.lg) {
-                topBand
+            VStack(alignment: .leading, spacing: UIConstants.Spacing.lgx) {
+                HomeHeaderView(weeklyMinutes: viewModel.weeklyMinutes, weather: viewModel.weather)
                 CurrentlyReadingCard(
                     book: viewModel.currentBook,
                     isSessionActive: viewModel.activeSession != nil,
@@ -22,7 +22,7 @@ struct HomeView: View {
                         Task { await viewModel.toggleCurrentSession() }
                     }
                 )
-                dailyGoalSection
+                goalsSection
                 ReadingQueueStrip(books: viewModel.queue) {
                     isShowingAddBook = true
                 }
@@ -36,8 +36,10 @@ struct HomeView: View {
             await viewModel.loadWeather()
         }
         .sheet(isPresented: $isShowingAddBook) {
-            AddBookView { title, author in
-                await viewModel.addBook(title: title, author: author)
+            AddBookView { title, author, totalPages, genre in
+                await viewModel.addBook(
+                    title: title, author: author, totalPages: totalPages, genre: genre
+                )
             }
         }
         .sheet(isPresented: $isShowingSetGoal) {
@@ -47,47 +49,26 @@ struct HomeView: View {
         }
     }
 
-    private var topBand: some View {
-        VStack(alignment: .leading, spacing: UIConstants.Spacing.md) {
-            ProfileStripView(weeklyMinutes: viewModel.weeklyMinutes)
-            WeatherHeaderView(weather: viewModel.weather)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(alignment: .topTrailing) {
-            RadialGradient(
-                colors: [UIConstants.Colors.gradientMint.opacity(0.45), .clear],
-                center: .center,
-                startRadius: 0,
-                endRadius: 180
-            )
-            .frame(width: 360, height: 360)
-            .blur(radius: 60)
-            .offset(x: UIConstants.Spacing.xxl, y: -UIConstants.Spacing.section)
-            .allowsHitTesting(false)
-        }
-    }
-
-    private var dailyGoalSection: some View {
-        Group {
-            if viewModel.todayGoalMinutes == 0 {
-                DailyGoalRing(
-                    todayReadMinutes: viewModel.todayReadMinutes,
-                    todayGoalMinutes: viewModel.todayGoalMinutes,
-                    onSetGoal: { isShowingSetGoal = true }
-                )
-            } else {
-                HStack {
-                    Spacer()
-                    DailyGoalRing(
-                        todayReadMinutes: viewModel.todayReadMinutes,
-                        todayGoalMinutes: viewModel.todayGoalMinutes,
-                        onSetGoal: { isShowingSetGoal = true }
-                    )
-                    Spacer()
+    private var goalsSection: some View {
+        VStack(alignment: .leading, spacing: UIConstants.Spacing.sm) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(StringConstants.Home.yourGoals)
+                    .font(UIConstants.Typography.titleSM)
+                    .foregroundStyle(UIConstants.Colors.ink)
+                Spacer()
+                Button(StringConstants.Home.editGoal) {
+                    isShowingSetGoal = true
                 }
-                .compactCard()
+                .font(UIConstants.Typography.caption)
+                .foregroundStyle(UIConstants.Colors.muted)
             }
+
+            DailyGoalRing(
+                todayReadMinutes: viewModel.todayReadMinutes,
+                todayGoalMinutes: viewModel.todayGoalMinutes,
+                onSetGoal: { isShowingSetGoal = true }
+            )
         }
-        .padding(.horizontal, UIConstants.Spacing.md)
+        .padding(.horizontal, UIConstants.Spacing.lg)
     }
 }

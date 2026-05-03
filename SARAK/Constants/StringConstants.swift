@@ -28,10 +28,15 @@ enum StringConstants {
         static let progressFormat = String(localized: "home.progress_format")
         static let startSession = String(localized: "home.start_session")
         static let stopSession = String(localized: "home.stop_session")
+        static let continueReading = String(localized: "home.continue_reading")
         static let noCurrentBook = String(localized: "home.no_current_book")
         static let addBook = String(localized: "home.add_book")
         static let goalProgressFormat = String(localized: "home.goal_progress_format")
         static let dailyGoalLabel = String(localized: "home.daily_goal_label")
+        static let yourGoals = String(localized: "home.your_goals")
+        static let editGoal = String(localized: "home.edit_goal")
+        static let pageProgressFormat = String(localized: "home.page_progress_format")
+        static let upNextFormat = String(localized: "home.up_next_format")
         static let noGoalSet = String(localized: "home.no_goal_set")
         static let setGoal = String(localized: "home.set_goal")
         static let readingQueue = String(localized: "home.reading_queue")
@@ -43,6 +48,9 @@ enum StringConstants {
         static let addTitle = String(localized: "book.add_title")
         static let titlePlaceholder = String(localized: "book.title_placeholder")
         static let authorPlaceholder = String(localized: "book.author_placeholder")
+        static let totalPagesPlaceholder = String(localized: "book.total_pages_placeholder")
+        static let genrePlaceholder = String(localized: "book.genre_placeholder")
+        static let notesPlaceholder = String(localized: "book.notes_placeholder")
     }
 
     enum Goal {
@@ -72,6 +80,11 @@ enum StringConstants {
         static let editTitle = String(localized: "book_detail.edit_title")
         static let titleLabel = String(localized: "book_detail.title_label")
         static let authorLabel = String(localized: "book_detail.author_label")
+        static let pagesLabel = String(localized: "book_detail.pages_label")
+        static let pagesFormat = String(localized: "book_detail.pages_format")
+        static let genreLabel = String(localized: "book_detail.genre_label")
+        static let notesLabel = String(localized: "book_detail.notes_label")
+        static let totalPagesLabel = String(localized: "book_detail.total_pages_label")
     }
 
     enum Stats {

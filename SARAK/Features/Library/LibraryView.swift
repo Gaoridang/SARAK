@@ -19,8 +19,8 @@ struct LibraryView: View {
         }
         .onAppear { Task { await viewModel.load() } }
         .sheet(isPresented: $isShowingAddBook) {
-            AddBookView { title, author in
-                await viewModel.addBook(title: title, author: author)
+            AddBookView { title, author, totalPages, genre in
+                await viewModel.addBook(title: title, author: author, totalPages: totalPages, genre: genre)
             }
         }
     }

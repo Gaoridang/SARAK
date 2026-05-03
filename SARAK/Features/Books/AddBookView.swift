@@ -5,13 +5,29 @@ struct AddBookView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var title = ""
     @State private var author = ""
-    let onSave: (String, String) async -> Void
+    @State private var totalPagesText = ""
+    @State private var genre = ""
+    let onSave: (String, String, Int?, String?) async -> Void
+
+    private var totalPages: Int? { Int(totalPagesText).flatMap { $0 > 0 ? $0 : nil } }
+    private var isSaveDisabled: Bool { title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
 
     var body: some View {
         NavigationStack {
             Form {
-                TextField(StringConstants.Book.titlePlaceholder, text: $title)
-                TextField(StringConstants.Book.authorPlaceholder, text: $author)
+                Section(StringConstants.BookDetail.titleLabel) {
+                    TextField(StringConstants.Book.titlePlaceholder, text: $title)
+                }
+                Section(StringConstants.BookDetail.authorLabel) {
+                    TextField(StringConstants.Book.authorPlaceholder, text: $author)
+                }
+                Section(StringConstants.BookDetail.totalPagesLabel) {
+                    TextField(StringConstants.Book.totalPagesPlaceholder, text: $totalPagesText)
+                        .keyboardType(.numberPad)
+                }
+                Section(StringConstants.BookDetail.genreLabel) {
+                    TextField(StringConstants.Book.genrePlaceholder, text: $genre)
+                }
             }
             .navigationTitle(StringConstants.Book.addTitle)
             .toolbar {
@@ -21,11 +37,11 @@ struct AddBookView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button(StringConstants.Common.save) {
                         Task {
-                            await onSave(title, author)
+                            await onSave(title, author, totalPages, genre.isEmpty ? nil : genre)
                             dismiss()
                         }
                     }
-                    .disabled(title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .disabled(isSaveDisabled)
                 }
             }
         }
