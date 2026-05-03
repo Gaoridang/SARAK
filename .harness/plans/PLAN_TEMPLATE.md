@@ -14,18 +14,22 @@ What exactly needs to be built or changed? One paragraph max.
 
 ## 3. Harness docs loaded
 List every `.harness/*.md` file read for this task:
-- [ ] architecture.md
-- [ ] conventions.md
 - [ ] constraints.md
-- [ ] sync.md (if touching data layer)
-- [ ] testing.md
-- [ ] supabase.md (if touching remote)
 - [ ] off-limits.md
+- [ ] quick guide used: `<file>`
+- [ ] full guide loaded (if needed): `<file>`
 
-## 4. Task checklist
+## 4. Task checklist (handoff-friendly)
 Create this checklist before implementation starts.
-Keep it current so another agent can understand what is done, what is in progress, and what remains.
+Keep it current so another agent can continue without re-discovery.
 
+### Status legend
+- [ ] Not started
+- [-] In progress
+- [x] Done
+- [!] Blocked
+
+### Execution checklist
 - [ ] Inspect relevant existing code
 - [ ] Read required harness docs
 - [ ] Create or switch to the dedicated task branch
@@ -33,8 +37,13 @@ Keep it current so another agent can understand what is done, what is in progres
 - [ ] Implement scoped changes
 - [ ] Add or update tests when required
 - [ ] Run build, SwiftLint, and tests without waiting for separate user approval
-- [ ] Update agent log
+- [ ] Update task log file (`.harness/logs/YYYY-MM-DD/<TASK_SLUG>.md`)
 - [ ] Review final diff against off-limits and project safety rules
+
+### Progress table (required for handoff)
+| Item | Status (`[ ]`/`[-]`/`[x]`/`[!]`) | Owner | Last update (UTC) | Notes |
+|---|---|---|---|---|
+| Example: Create HomeViewModel | [ ] | agent-name | YYYY-MM-DD HH:MM | |
 
 ## 5. Files to create
 | File path | Purpose |
@@ -49,7 +58,7 @@ Keep it current so another agent can understand what is done, what is in progres
 ## 6. Files to modify
 | File path | Change |
 |-----------|--------|
-| `SARAK/SarakApp.swift` | Register new dependency if needed |
+| `SARAK/SARAKApp.swift` | Register new dependency if needed |
 
 ## 7. Architecture check
 - [ ] View has zero business logic
@@ -70,10 +79,16 @@ Keep it current so another agent can understand what is done, what is in progres
 ## 9. Risks and unknowns
 List anything ambiguous. If any item here is blocking, stop and ask user before coding.
 
-## 10. Definition of done
+## 10. Handoff notes (required)
+- Current step:
+- Next immediate step:
+- Blockers/decisions pending user input:
+- Commands already run:
+
+## 11. Definition of done
 - [ ] Build passes with zero warnings
 - [ ] SwiftLint passes with zero errors
 - [ ] All new public ViewModel methods have tests
 - [ ] Plan checklist is up to date
-- [ ] Agent log updated
+- [ ] Task log updated
 - [ ] Working tree snapshot taken
