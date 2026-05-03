@@ -3,7 +3,7 @@ import Foundation
 import SwiftData
 
 @MainActor
-final class LocalReadingSessionRepository: ReadingSessionRepositoryProtocol {
+final class LocalReadingSessionRepository: ReadingSessionRepositoryProtocol, SessionSyncMergeRepositoryProtocol {
     private let modelContext: ModelContext
     private let encoder = JSONEncoder()
 
@@ -53,12 +53,43 @@ final class LocalReadingSessionRepository: ReadingSessionRepositoryProtocol {
     }
 
     private func fetchSession(id: UUID) throws -> ReadingSession {
-        var descriptor = FetchDescriptor<ReadingSession>(predicate: #Predicate { $0.id == id })
-        descriptor.fetchLimit = 1
-        guard let session = try modelContext.fetch(descriptor).first else {
+        guard let session = try fetchSessionIfExists(id: id) else {
             throw LocalRepositoryError.notFound
         }
         return session
+    }
+
+    func mergeRemoteSessions(
+        _ sessions: [ReadingSession],
+        preservingPendingIDs pendingIDs: Set<UUID>
+    ) async throws {
+        let syncedAt = Date()
+        for remoteSession in sessions where !pendingIDs.contains(remoteSession.id) {
+            if let localSession = try fetchSessionIfExists(id: remoteSession.id) {
+                apply(remoteSession, to: localSession, syncedAt: syncedAt)
+            } else {
+                remoteSession.lastSyncedAt = syncedAt
+                modelContext.insert(remoteSession)
+            }
+        }
+        try modelContext.save()
+    }
+
+    private func fetchSessionIfExists(id: UUID) throws -> ReadingSession? {
+        var descriptor = FetchDescriptor<ReadingSession>(predicate: #Predicate { $0.id == id })
+        descriptor.fetchLimit = 1
+        return try modelContext.fetch(descriptor).first
+    }
+
+    private func apply(_ remoteSession: ReadingSession, to localSession: ReadingSession, syncedAt: Date) {
+        localSession.bookID = remoteSession.bookID
+        localSession.startedAt = remoteSession.startedAt
+        localSession.endedAt = remoteSession.endedAt
+        localSession.durationMinutes = remoteSession.durationMinutes
+        localSession.createdAt = remoteSession.createdAt
+        localSession.updatedAt = remoteSession.updatedAt
+        localSession.deletedAt = remoteSession.deletedAt
+        localSession.lastSyncedAt = syncedAt
     }
 
     private func queueChange(for session: ReadingSession, operation: SyncOperation) throws {

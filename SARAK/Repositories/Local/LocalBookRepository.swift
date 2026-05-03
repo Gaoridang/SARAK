@@ -3,7 +3,7 @@ import Foundation
 import SwiftData
 
 @MainActor
-final class LocalBookRepository: BookRepositoryProtocol {
+final class LocalBookRepository: BookRepositoryProtocol, BookSyncMergeRepositoryProtocol {
     private let modelContext: ModelContext
     private let encoder = JSONEncoder()
 
@@ -45,12 +45,44 @@ final class LocalBookRepository: BookRepositoryProtocol {
     }
 
     private func fetchBook(id: UUID) throws -> Book {
-        var descriptor = FetchDescriptor<Book>(predicate: #Predicate { $0.id == id })
-        descriptor.fetchLimit = 1
-        guard let book = try modelContext.fetch(descriptor).first else {
+        guard let book = try fetchBookIfExists(id: id) else {
             throw LocalRepositoryError.notFound
         }
         return book
+    }
+
+    func mergeRemoteBooks(_ books: [Book], preservingPendingIDs pendingIDs: Set<UUID>) async throws {
+        let syncedAt = Date()
+        for remoteBook in books where !pendingIDs.contains(remoteBook.id) {
+            if let localBook = try fetchBookIfExists(id: remoteBook.id) {
+                apply(remoteBook, to: localBook, syncedAt: syncedAt)
+            } else {
+                remoteBook.lastSyncedAt = syncedAt
+                modelContext.insert(remoteBook)
+            }
+        }
+        try modelContext.save()
+    }
+
+    private func fetchBookIfExists(id: UUID) throws -> Book? {
+        var descriptor = FetchDescriptor<Book>(predicate: #Predicate { $0.id == id })
+        descriptor.fetchLimit = 1
+        return try modelContext.fetch(descriptor).first
+    }
+
+    private func apply(_ remoteBook: Book, to localBook: Book, syncedAt: Date) {
+        localBook.title = remoteBook.title
+        localBook.author = remoteBook.author
+        localBook.status = remoteBook.status
+        localBook.progress = remoteBook.progress
+        localBook.totalPages = remoteBook.totalPages
+        localBook.currentPage = remoteBook.currentPage
+        localBook.genre = remoteBook.genre
+        localBook.notes = remoteBook.notes
+        localBook.createdAt = remoteBook.createdAt
+        localBook.updatedAt = remoteBook.updatedAt
+        localBook.deletedAt = remoteBook.deletedAt
+        localBook.lastSyncedAt = syncedAt
     }
 
     private func queueChange(for book: Book, operation: SyncOperation) throws {

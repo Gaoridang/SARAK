@@ -7,6 +7,7 @@ import Supabase
 protocol AuthServiceProtocol: Sendable {
     func signInWithKakao() async throws
     func signOut() async throws
+    func handleOpenURL(_ url: URL) async
     var isSignedIn: Bool { get async }
 }
 
@@ -26,5 +27,9 @@ final class AuthService: AuthServiceProtocol {
 
     func signOut() async throws {
         try await SupabaseService.client.auth.signOut()
+    }
+
+    func handleOpenURL(_ url: URL) async {
+        SupabaseService.handle(url)
     }
 }

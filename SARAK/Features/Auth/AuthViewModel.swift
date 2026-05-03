@@ -45,6 +45,11 @@ final class AuthViewModel: ObservableObject {
         isLoading = false
     }
 
+    func handleOpenURL(_ url: URL) async {
+        await authService.handleOpenURL(url)
+        await refreshSession()
+    }
+
     private func refreshSession() async {
         isAuthenticated = await authService.isSignedIn
     }

@@ -8,6 +8,10 @@ create table if not exists public.books (
   author text not null,
   status text not null check (status in ('queued', 'reading', 'finished')),
   progress double precision not null default 0 check (progress >= 0 and progress <= 1),
+  total_pages integer check (total_pages is null or total_pages > 0),
+  current_page integer check (current_page is null or current_page >= 0),
+  genre text,
+  notes text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   deleted_at timestamptz

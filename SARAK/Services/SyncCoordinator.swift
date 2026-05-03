@@ -3,25 +3,56 @@
 // Only class allowed to touch both local and remote layers simultaneously.
 // See .harness/sync.md for strategy.
 import Foundation
+import os
 import Supabase
 
 @MainActor
 final class SyncCoordinator: SyncTriggerProtocol {
-    private let pendingRepository: any PendingSyncRepositoryProtocol
+    let pendingRepository: any PendingSyncRepositoryProtocol
+    let bookMergeRepository: any BookSyncMergeRepositoryProtocol
+    let sessionMergeRepository: any SessionSyncMergeRepositoryProtocol
+    let goalMergeRepository: any DailyGoalSyncMergeRepositoryProtocol
+    let remoteBookRepository: any BookRepositoryProtocol
+    let remoteSessionRepository: any ReadingSessionRepositoryProtocol
+    let remoteGoalRepository: any DailyGoalRepositoryProtocol
+    let logger = Logger(subsystem: "SARAK", category: "SyncCoordinator")
     private let decoder = JSONDecoder()
 
-    init(pendingRepository: any PendingSyncRepositoryProtocol) {
+    init(
+        pendingRepository: any PendingSyncRepositoryProtocol,
+        bookMergeRepository: any BookSyncMergeRepositoryProtocol,
+        sessionMergeRepository: any SessionSyncMergeRepositoryProtocol,
+        goalMergeRepository: any DailyGoalSyncMergeRepositoryProtocol,
+        remoteBookRepository: any BookRepositoryProtocol,
+        remoteSessionRepository: any ReadingSessionRepositoryProtocol,
+        remoteGoalRepository: any DailyGoalRepositoryProtocol
+    ) {
         self.pendingRepository = pendingRepository
+        self.bookMergeRepository = bookMergeRepository
+        self.sessionMergeRepository = sessionMergeRepository
+        self.goalMergeRepository = goalMergeRepository
+        self.remoteBookRepository = remoteBookRepository
+        self.remoteSessionRepository = remoteSessionRepository
+        self.remoteGoalRepository = remoteGoalRepository
     }
 
     func syncPendingChanges() async {
+        await uploadPendingChanges()
+    }
+
+    func syncAfterLogin() async {
+        await uploadPendingChanges()
+        await importRemoteChanges()
+    }
+
+    private func uploadPendingChanges() async {
         do {
             let changes = try await pendingRepository.pendingChanges()
             for change in changes {
                 await upload(change)
             }
         } catch {
-            // Pending-sync fetch failures are local persistence failures; the next trigger retries.
+            logger.error("Failed to fetch pending sync changes: \(error.localizedDescription)")
         }
     }
 

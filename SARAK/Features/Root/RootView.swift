@@ -5,10 +5,15 @@ struct RootView: View {
     @StateObject private var authViewModel = AuthViewModel()
 
     var body: some View {
-        if authViewModel.isAuthenticated {
-            MainTabView(authViewModel: authViewModel)
-        } else {
-            AuthView(viewModel: authViewModel)
+        Group {
+            if authViewModel.isAuthenticated {
+                MainTabView(authViewModel: authViewModel)
+            } else {
+                AuthView(viewModel: authViewModel)
+            }
+        }
+        .onOpenURL { url in
+            Task { await authViewModel.handleOpenURL(url) }
         }
     }
 }

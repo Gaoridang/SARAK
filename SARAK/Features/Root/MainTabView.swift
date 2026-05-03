@@ -45,6 +45,9 @@ struct MainTabView: View {
                     Label(StringConstants.Tab.profile, systemImage: "person.fill")
                 }
         }
+        .task {
+            await syncCoordinator.syncAfterLogin()
+        }
     }
 
     private var bookRepository: LocalBookRepository {
@@ -60,6 +63,14 @@ struct MainTabView: View {
     }
 
     private var syncCoordinator: SyncCoordinator {
-        SyncCoordinator(pendingRepository: LocalPendingSyncRepository(modelContext: modelContext))
+        SyncCoordinator(
+            pendingRepository: LocalPendingSyncRepository(modelContext: modelContext),
+            bookMergeRepository: bookRepository,
+            sessionMergeRepository: sessionRepository,
+            goalMergeRepository: goalRepository,
+            remoteBookRepository: RemoteBookRepository(),
+            remoteSessionRepository: RemoteReadingSessionRepository(),
+            remoteGoalRepository: RemoteDailyGoalRepository()
+        )
     }
 }

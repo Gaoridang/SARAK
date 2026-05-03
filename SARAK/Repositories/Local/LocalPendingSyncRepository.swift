@@ -22,6 +22,22 @@ final class LocalPendingSyncRepository: PendingSyncRepositoryProtocol {
         return try modelContext.fetch(descriptor)
     }
 
+    func pendingEntityIDs(for entityType: SyncEntityType) async throws -> Set<UUID> {
+        let entityTypeRawValue = entityType.rawValue
+        let pendingStatus = SyncStatus.pending.rawValue
+        let uploadingStatus = SyncStatus.uploading.rawValue
+        let failedStatus = SyncStatus.failed.rawValue
+        let descriptor = FetchDescriptor<PendingSyncChange>(
+            predicate: #Predicate {
+                $0.entityTypeRawValue == entityTypeRawValue &&
+                    ($0.statusRawValue == pendingStatus ||
+                     $0.statusRawValue == uploadingStatus ||
+                     $0.statusRawValue == failedStatus)
+            }
+        )
+        return Set(try modelContext.fetch(descriptor).map(\.entityID))
+    }
+
     func markUploading(id: UUID) async throws {
         let change = try fetchChange(id: id)
         change.statusRawValue = SyncStatus.uploading.rawValue
